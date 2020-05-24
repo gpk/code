@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <script src=" https://pyodide-cdn2.iodide.io/v0.15.0/full/pyodide.js"></script>
+  </head>
+  <body>
+      <script type="text/javascript">
+            const start = new Date().getTime()
+            languagePluginLoader.then(function () {
+                pyodide.runPython("print('hello world')");
+                console.log(new Date().getTime() - start)
+
+                pyodide.runPython(`
+import sys
+
+def print_frames(frame):
+    print("FRAME", frame, frame.f_code.co_filename, frame.f_lineno, frame.f_code.co_name)
+    if frame.f_back:
+        print_frames(frame.f_back)
+
+def mytrace(frame, why, arg):
+    print(why)
+    print_frames(frame)
+    print("===========")
+    return mytrace
+sys.settrace(mytrace)
+
+def a():
+    pass
+
+def b():
+    a()
+
+b()
+                `);
+                console.log(new Date().getTime() - start)
+            });
+
+      </script>
+  </body>
+</html>

@@ -11,6 +11,3 @@ declare namespace shippingContainer {
         size: ContainerSize
     }
 }
-
-
-

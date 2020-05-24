@@ -3,6 +3,7 @@
   "include": [],
   "references": [
     { "path": "./boat" },
-    { "path": "./shipping-container-types" }
+    { "path": "./shipping-container-types" },
+    { "path": "./truck" }
   ]
 }

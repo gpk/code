@@ -1,0 +1,8 @@
+{
+  "files": [],
+  "include": [],
+  "references": [
+    { "path": "./boat" },
+    { "path": "./shipping-container-types" }
+  ]
+}

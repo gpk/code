@@ -31,4 +31,13 @@ ts convention references:
 npm install
 node_modules/.bin/tsc -p shipping-container-types/tsconfig.json 
 node_modules/.bin/tsc -p boat/tsconfig.json 
+
+# given a top-level tsconfig.json, we can use tsc -b
+
+node_modules/.bin/tsc -b .
+
+# note that --dry shows what *would* be built.
+# useful for seeing incremental compilation decisions
+
+node_modules/.bin/tsc -b . --dry
 ```

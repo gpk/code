@@ -1,0 +1,14 @@
+{
+  "name": "202005-typescript-project-structure",
+  "version": "0.0.1",
+  "description": "Following [this link](https://www.typescriptlang.org/docs/handbook/project-references.html), put together a typescript project which promotes modularity.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "3.9.3"
+  }
+}

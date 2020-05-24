@@ -1,0 +1,7 @@
+{
+  "references": [
+    { "path": "../shipping-container-types" }
+  ],
+  "extends": "../tsconfig-base",
+  "include": ["src/**/*.ts"]
+}

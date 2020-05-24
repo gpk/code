@@ -23,3 +23,12 @@ ts convention references:
 ### Possible conventions
 
 * kebab-case ts filenaming
+
+
+### Commands / Scratch
+
+```
+npm install
+node_modules/.bin/tsc -p shipping-container-types/tsconfig.json 
+node_modules/.bin/tsc -p boat/tsconfig.json 
+```

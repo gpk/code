@@ -1,7 +1,14 @@
 {
+  "extends": "../tsconfig-base.json",
+  "compilerOptions": {
+    "outDir": "../build"
+  },
   "references": [
-    { "path": "../shipping-container-types" }
+    {
+      "path": "../shipping-container-types"
+    }
   ],
-  "extends": "../tsconfig-base",
-  "include": ["src/**/*.ts"]
+  "include": [
+    "src/**/*.ts"
+  ]
 }

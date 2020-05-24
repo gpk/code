@@ -1,4 +1,9 @@
 {
-  "extends": "../tsconfig-base",
-  "include": ["*.d.ts"]
+  "extends": "../tsconfig-base.json",
+  "compilerOptions": {
+    "outDir": "../build"
+  },
+  "include": [
+    "*.ts"
+  ]
 }

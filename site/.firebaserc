@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "gpk-program-world"
+  },
+  "targets": {
+    "gpk-program-world": {
+      "hosting": {
+        "dev": [
+          "dev-gpk-program-world"
+        ],
+        "prod": [
+          "gpk-program-world"
+        ]
+      }
+    }
+  }
+}

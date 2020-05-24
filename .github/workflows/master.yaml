@@ -1,0 +1,28 @@
+name: "PROD: Build and Deploy to Firebase Hosting"
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      # build stuff might go here ?
+
+      - name: Build
+        working-directory: ./site
+        run: ./fakebuild.sh
+
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting:prod
+        env:
+          PROJECT_ID: gpk-program-world
+          PROJECT_PATH: site
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

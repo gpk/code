@@ -8,4 +8,3 @@ const y: shippingContainer.Container = {
     size: shippingContainer.ContainerSize.HALF
 }
 
-

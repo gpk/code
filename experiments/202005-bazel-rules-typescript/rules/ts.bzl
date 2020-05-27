@@ -39,7 +39,6 @@ def ts_test(name=None, data=[]):
         name = ts_test_lib_name,
         testonly = 1,
         srcs = tests_glob,
-#        tsconfig = ":tsconfig-test",
         deps = [
             ":ts_lib",
             "@npm//@types/mocha",

@@ -12,6 +12,7 @@
     "typescript": "3.9.3"
   },
   "devDependencies": {
-    "@bazel/typescript": "1.6.1"
+    "@bazel/typescript": "1.6.1",
+    "mocha": "7.2.0"
   }
 }

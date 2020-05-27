@@ -8,3 +8,11 @@ const y: shippingContainer.Container = {
     size: shippingContainer.ContainerSize.FULL
 }
 
+export interface Truck {
+    wheels: number,
+    payload?: shippingContainer.Container
+}
+
+function loadTruck(truck: Truck, container: shippingContainer.Container): Truck {
+    return {...truck, payload: container}
+}

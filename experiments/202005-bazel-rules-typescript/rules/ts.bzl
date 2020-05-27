@@ -12,8 +12,7 @@ def ts_lib(name=None, srcs=None, deps=[]):
         name = name,
         tsconfig = ":tsconfig.json",
         srcs = srcs,
-        deps=deps,
-        devmode_target="es5"
+        deps=deps
     )
 
     native.filegroup(

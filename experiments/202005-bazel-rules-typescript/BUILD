@@ -8,5 +8,4 @@ rollup_bundle(
         "//init:js"
     ],
     entry_point = "//init:js",
-#    tsconfig = ":tsconfig.json"
 )

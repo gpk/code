@@ -2,10 +2,11 @@
   "extends": "../tsconfig-base.json",
   "references": [
     {
-      "path": "../shipping-container-types"
+      "path": "../shipping-container"
     }
   ],
   "include": [
     "src/**/*.ts"
   ]
 }
+

@@ -1,18 +1,24 @@
-import "../../shipping-container-types/types"
+import "../../shipping-container/src/container"
 
 const x = "hello world 2"
 
-const y: shippingContainer.Container = {
+const y: Container = {
     weight: 50000,
     company: "COSCO",
-    size: shippingContainer.ContainerSize.FULL
+    size: ContainerSize.FULL
 }
 
 export interface Truck {
     wheels: number,
-    payload?: shippingContainer.Container
+    payload?: Container
 }
 
-function loadTruck(truck: Truck, container: shippingContainer.Container): Truck {
+export function createTruck(): Truck {
+    return {
+        wheels: 18
+    }
+}
+
+export function loadTruck(truck: Truck, container: Container): Truck {
     return {...truck, payload: container}
 }

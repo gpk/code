@@ -1,19 +1,6 @@
 load("@npm_bazel_typescript//:index.bzl", "ts_library")
 load("@npm//mocha:index.bzl", "mocha_test")
 
-def ts_types(name=None, srcs=None, deps=[]):
-    if name == None:
-        name = "ts_types"
-
-    if srcs == None:
-        srcs = native.glob(["**/*.d.ts"])
-
-    ts_library(
-        name = name,
-        srcs = srcs,
-        deps=deps
-    )
-
 def ts_lib(name=None, srcs=None, deps=[]):
     if name == None:
         name = "ts_lib"
@@ -23,11 +10,12 @@ def ts_lib(name=None, srcs=None, deps=[]):
 
     ts_library(
         name = name,
+        tsconfig = ":tsconfig.json",
         srcs = srcs,
         deps=deps
     )
 
-def ts_test(name=None, data=[]):
+def ts_test(name=None, deps=[], data=[]):
     if name == None:
         name = "ts_test"
 
@@ -40,11 +28,10 @@ def ts_test(name=None, data=[]):
         testonly = 1,
         srcs = tests_glob,
         deps = [
-            ":ts_lib",
             "@npm//@types/mocha",
             "@npm//@types/chai",
             "@npm//@types/node",
-        ],
+        ] + deps,
     )
 
     data = [

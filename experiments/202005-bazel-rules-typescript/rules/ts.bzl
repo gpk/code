@@ -31,10 +31,31 @@ def ts_test(name=None, data=[]):
     if name == None:
         name = "ts_test"
 
-    data = [":ts_lib"] + native.glob(["test/**/*-test.ts"]) + data
+    tests_glob = native.glob(["test/**/*-test.ts"])
+
+    ts_test_lib_name = name + "_lib"
+
+    ts_library(
+        name = ts_test_lib_name,
+        testonly = 1,
+        srcs = tests_glob,
+#        tsconfig = ":tsconfig-test",
+        deps = [
+            ":ts_lib",
+            "@npm//@types/mocha",
+            "@npm//@types/chai",
+            "@npm//@types/node",
+        ],
+    )
+
+    data = [
+        ":" + ts_test_lib_name,
+        "@npm//chai",
+    ] + data
 
     mocha_test(
         name = name,
-        args = [native.package_name() + "/test/**/*-test.ts"],
+        args = [native.package_name() + "/test/**/*-test.js"],
         data = data,
+        templated_args = ["--ui tdd"],
     )

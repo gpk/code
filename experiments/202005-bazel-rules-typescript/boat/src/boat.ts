@@ -8,3 +8,6 @@ const y: Container = {
     size: ContainerSize.HALF
 }
 
+export function putContainerOnBoat(c: Container) {
+
+}

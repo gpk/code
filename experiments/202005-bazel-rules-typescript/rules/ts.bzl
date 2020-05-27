@@ -12,8 +12,16 @@ def ts_lib(name=None, srcs=None, deps=[]):
         name = name,
         tsconfig = ":tsconfig.json",
         srcs = srcs,
-        deps=deps
+        deps=deps,
+        devmode_target="es5"
     )
+
+    native.filegroup(
+        name = "js",
+        srcs = ["ts_lib"],
+        output_group = "es5_sources",
+    )
+
 
 def ts_test(name=None, deps=[], data=[]):
     if name == None:
@@ -27,6 +35,7 @@ def ts_test(name=None, deps=[], data=[]):
         name = ts_test_lib_name,
         testonly = 1,
         srcs = tests_glob,
+        devmode_target="es5",
         deps = [
             "@npm//@types/mocha",
             "@npm//@types/chai",

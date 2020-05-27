@@ -14,7 +14,9 @@
   "devDependencies": {
     "mocha": "7.2.0",
     "chai": "4.2.0",
+    "rollup": "2.10.9",
     "@bazel/typescript": "1.6.1",
+    "@bazel/rollup": "1.6.1",
     "@types/mocha": "7.0.2",
     "@types/chai": "^4.2.11"
   }

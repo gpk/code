@@ -13,6 +13,8 @@ ts convention references:
 * [typescript-book](https://github.com/basarat/typescript-book/blob/master/docs/styleguide/styleguide.md)
 * [ts contributors](https://github.com/microsoft/TypeScript/wiki/Coding-guidelines)
 
+[Commentary on where tsbuildinfo files go](https://github.com/microsoft/TypeScript/issues/30925#issuecomment-483371766)
+
 ## Notes
 
 * Bias toward flatter directory structure. Eventually, 

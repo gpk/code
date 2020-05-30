@@ -1,4 +1,7 @@
 {
+  "compilerOptions": {
+    "tsBuildInfoFile": "/tmp/202005-typescript-project-structure/truck.tsbuildinfo"
+  },
   "extends": "../tsconfig-base.json",
   "references": [
     {

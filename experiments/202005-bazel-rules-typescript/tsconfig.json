@@ -9,7 +9,7 @@
       "path": "./init"
     },
     {
-      "path": "./shipping-container-types"
+      "path": "./shipping-container"
     },
     {
       "path": "./truck"

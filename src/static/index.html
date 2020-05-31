@@ -1,17 +1,18 @@
 <html>
 <head>
   <script src=" https://pyodide-cdn2.iodide.io/v0.15.0/full/pyodide.js"></script>
+  <script src="./bundle.js"></script>
 </head>
 <body>
 <script type="text/javascript">
   const start = new Date().getTime()
   languagePluginLoader.then(function () {
-    pyodide.runPython("print('hello world')");
+    pyodide.runPython("print('hello world, from Python')");
     console.log(new Date().getTime() - start)
 
     pyodide.runPython(`
                 import ast
-                print(ast.parse("print('hello world')"))
+                print(ast.parse("print('hello world, from Python AST')"))
 
                 import sys
                 print("Python version")

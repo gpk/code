@@ -1,20 +1,12 @@
 {
-  "hosting": [{
+  "hosting": [
+    {
       "target": "prod",
-      "public": "build",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ]
+      "public": "upload"
     },
     {
       "target": "dev",
-      "public": "build",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ]
-    }]
+      "public": "upload"
+    }
+  ]
 }

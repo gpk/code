@@ -16,14 +16,20 @@ jobs:
         with:
           path: src/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('src/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+
+      - uses: actions/cache@v2
+        with:
+          path: /home/runner/.local/lib/python3.6/site-packages
+          key: ${{ runner.os }}-pip-${{ hashFiles('src/requirements.txt') }}
 
       - name: All
         run: script/gh-action-off-master.sh
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
-      # we run tests in parallel, off-master, because green tests are not a prereq for dev deployment.
-      - name: Tests
-        run: script/test.sh
+      # we run tests independently, off-master, because green tests are not a prereq for dev deployment.
+      - name: Typescript Tests
+        run: script/test_ts.sh
+
+      - name: Python Tests
+        run: script/test_py.sh

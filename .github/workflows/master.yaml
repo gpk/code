@@ -19,6 +19,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      # test running is integrated into gh-action-master -
+      # tests must pass before a deploy will proceed, on master
       - name: All
         run: script/gh-action-master.sh
         env:

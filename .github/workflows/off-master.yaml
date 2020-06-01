@@ -14,8 +14,8 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          path: src/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('src/package-lock.json') }}
+          path: src/ts/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('src/ts/package-lock.json') }}
 
       - uses: actions/cache@v2
         with:

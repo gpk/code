@@ -1,4 +1,4 @@
-name: "PROD: Build and Deploy to Firebase Hosting"
+name: "PROD: Build and Deploy to https://program.world"
 on:
   push:
     branches:
@@ -6,23 +6,20 @@ on:
 
 jobs:
   build-and-deploy:
-    name: Build
+    name: build-and-deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
 
-      # build stuff might go here ?
-
-      - name: Build
-        working-directory: ./site
-        run: ./fakebuild.sh
-
-      - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
+      - uses: actions/cache@v2
         with:
-          args: deploy --only hosting:prod
+          path: src/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('src/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: All
+        run: script/gh-action-master.sh
         env:
-          PROJECT_ID: gpk-program-world
-          PROJECT_PATH: site
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

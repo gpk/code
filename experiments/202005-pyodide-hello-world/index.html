@@ -4,12 +4,35 @@
   </head>
   <body>
       <script type="text/javascript">
+            function helloJs(fromPython) {
+              console.log("hello from js, got this from python :", fromPython)
+            }
+
+            function helloSetTimeout(pyCallback, ms) {
+              console.log(`will wait for ${ms}ms...`)
+              setTimeout(pyCallback, ms)
+            }
+
             const start = new Date().getTime()
             languagePluginLoader.then(function () {
                 pyodide.runPython("print('hello world')");
                 console.log(new Date().getTime() - start)
 
                 pyodide.runPython(`
+                import sqlite3
+                print("sqlite", sqlite3.version)
+                conn = sqlite3.connect('example.db')
+                c = conn.cursor()
+                c.execute("create table foo (name text, size int, color text)")
+                c.execute("insert into foo values('sandal', 45, 'brown')")
+                c.execute("insert into foo values('spezial', 44, 'blue')")
+                conn.commit()
+
+                for row in c.execute("select * from foo"):
+                    print(row)
+
+                conn.close()
+
                 import ast
                 print(ast.parse("print('hello world')"))
 
@@ -18,6 +41,25 @@
                 print (sys.version)
                 print("Version info.")
                 print (sys.version_info)
+
+                from js import helloJs
+
+                helloJs("hi I'm a python string")
+                helloJs({"a": 1, "b": "I'm a py dict"})
+                helloJs(["I'm a py list", 2])
+
+                def print_hello_later():
+                    print("hello later, from python")
+
+                from js import helloSetTimeout
+                helloSetTimeout(print_hello_later, 1000)
+
+                print("...this prints from python, before hello later runs")
+
+                def loop_forever():
+                    print("this loop prints every second, forever")
+                    helloSetTimeout(loop_forever, 1000)
+                loop_forever()
                 `);
                 console.log(new Date().getTime() - start)
             });

@@ -1,8 +1,20 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 this_dir=$(dirname $0)
-dest_dir=$this_dir/build
+src_dir=$this_dir/../src
 
-mkdir -p $dest_dir
-cp $this_dir/../src/static/index.html $dest_dir/index.html
+cd $src_dir
 
+
+mkdir -p build/upload
+
+time npm install
+
+time node_modules/.bin/tsc --build . --verbose
+time node_modules/.bin/rollup --config
+
+cp static/index.html build/upload
+cp build/rollup/bundle.js build/upload
+
+cd -
+mv $src_dir/build/upload ./

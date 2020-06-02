@@ -23,3 +23,7 @@ jobs:
         run: script/gh-action-off-master.sh
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+      # we run tests in parallel, off-master, because green tests are not a prereq for dev deployment.
+      - name: Tests
+        run: script/test.sh

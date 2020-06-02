@@ -2,6 +2,6 @@
   "extends": "../tsconfig-base.json",
   "references": [],
   "include": [
-    "src/**/*.ts"
+    "**/*.ts"
   ]
 }

@@ -2,11 +2,12 @@
 
 this_dir=$(dirname $0)
 
+$this_dir/tsc_build.sh
+
 cd $this_dir/../src
 
 mkdir -p build/upload
 
-time node_modules/.bin/tsc --build . --verbose
 time node_modules/.bin/rollup --config
 
 cp static/index.html build/upload

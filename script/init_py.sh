@@ -7,6 +7,6 @@ if [ -n "$GITHUB_RUN_ID" -a -d "/home/runner/.local/lib/python3.6/site-packages/
     exit 0
 fi
 
-cd $this_dir/../src
+cd $this_dir/../src/py
 pip3 install -r requirements.txt
 

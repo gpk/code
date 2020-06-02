@@ -5,6 +5,7 @@ build/
 build-*/
 .python-version
 .firebase
-tscout
-dist
 site/upload
+pyenv
+.pytest_cache
+__pycache__

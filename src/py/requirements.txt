@@ -1,2 +1,5 @@
+# note - pip modules are currently dev-only
+# assume that the "production" python environment is highly constrained
+
 pytest==5.4.2
 mypy==0.770

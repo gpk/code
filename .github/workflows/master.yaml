@@ -20,7 +20,12 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: /home/runner/.local/lib/python3.6/site-packages
-          key: ${{ runner.os }}-pip-${{ hashFiles('src/requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('src/py/requirements.txt') }}
+
+      - uses: actions/cache@v2
+        with:
+          path: /home/runner/.local/bin
+          key: ${{ runner.os }}-pybin-${{ hashFiles('src/py/requirements.txt') }}
 
       # test running is integrated into gh-action-master -
       # tests must pass before a deploy will proceed, on master

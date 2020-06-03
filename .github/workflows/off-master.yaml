@@ -20,16 +20,25 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: /home/runner/.local/lib/python3.6/site-packages
-          key: ${{ runner.os }}-pip-${{ hashFiles('src/requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('src/py/requirements.txt') }}
+
+      - uses: actions/cache@v2
+        with:
+          path: /home/runner/.local/bin
+          key: ${{ runner.os }}-pybin-${{ hashFiles('src/py/requirements.txt') }}
 
       - name: All
         run: script/gh-action-off-master.sh
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
-      # we run tests independently, off-master, because green tests are not a prereq for dev deployment.
+      # we run tests and typecheck independently, off-master,
+      # because these things are not prerequisites for dev deployment.
       - name: Typescript Tests
         run: script/test_ts.sh
 
       - name: Python Tests
         run: script/test_py.sh
+
+      - name: Python Typecheck
+        run: script/typecheck_py.sh

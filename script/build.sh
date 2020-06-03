@@ -2,6 +2,8 @@
 
 this_dir=$(dirname $0)
 
+echo "BUILD START $(date)"
+
 $this_dir/tsc_build.sh
 
 cd $this_dir/../src/ts

@@ -1,6 +1,7 @@
 #!/bin/bash -ex
 
 this_dir=$(dirname $0)
+PATH="/usr/bin:/bin:/usr/sbin:/sbin:$($this_dir/../bin/realpath $this_dir/../bin)"
 
 file $this_dir/../src/ts/build/upload/index.html
 file $this_dir/../src/ts/build/upload/bundle.js

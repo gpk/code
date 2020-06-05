@@ -1,12 +1,55 @@
 #!/bin/bash -ex
 
 this_dir=$(dirname $0)
+PATH="/usr/bin:/bin:/usr/sbin:/sbin"
 
-if [ -n "$GITHUB_RUN_ID" -a -d "/home/runner/.local/lib/python3.6/site-packages/pytest" ]; then
-    # we assume the proper pip dir has been restored from cache
-    exit 0
+bin_dir=$(dirname $0)/../bin
+
+test -d $bin_dir || mkdir $bin_dir
+
+
+# not really py-related...
+if [ $(uname) = "Darwin" ]; then
+    if [ ! -f /usr/local/bin/realpath ]; then
+        brew install coreutils
+    fi
+    ln -sf /usr/local/bin/realpath $bin_dir/realpath
 fi
 
-cd $this_dir/../src/py
-pip3 install -r requirements.txt
+if [ $(uname) = "Linux" ]; then
+    ln -sf /usr/bin/realpath $bin_dir/realpath
+fi
 
+
+
+
+if [ ! -f "$bin_dir/python3" -a $(uname) = "Darwin" ]; then
+    brew install pyenv || true
+    pyenv install -s 3.7.4
+
+    pyenv_python_path=$(realpath ~/.pyenv/versions/3.7.4)
+    ln -sf $pyenv_python_path/bin/python3 $bin_dir/python3
+    ln -sf $pyenv_python_path/bin/pip3 $bin_dir/pip3
+fi
+
+if [ $(uname) = "Linux" ]; then
+    # pyodide is py 3.7.4, but 3.6 is available on gh actions ubuntu.
+    # This works out ok - at the moment there's no need to tightly manage
+    # this interpreter.
+    ln -sf /home/runner/.local/lib/python3.6/bin/python3 $bin_dir/python3
+    ln -sf /home/runner/.local/lib/python3.6/bin/pip3 $bin_dir/pip3
+fi
+
+# in the build, the cache is keyed on a hash of requirements.txt
+if [ ! -d "/home/runner/.local/lib/python3.6/site-packages/pytest" -o $(uname) = "Darwin" ]; then
+    $bin_dir/pip3 install -r $this_dir/../src/py/requirements.txt
+fi
+
+if [ $(uname) = "Darwin" ]; then
+    pyenv_python_path=$(realpath ~/.pyenv/versions/3.7.4)
+    ln -sf $pyenv_python_path/bin/mypy $bin_dir/mypy
+fi
+
+if [ $(uname) = "Linux" ]; then
+    ln -sf /home/runner/.local/bin/mypy $bin_dir/mypy
+fi

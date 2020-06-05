@@ -1,6 +1,7 @@
 #!/bin/bash -ex
 
 this_dir=$(dirname $0)
+PATH="/usr/bin:/bin:/usr/sbin:/sbin"
 
 time $this_dir/init_ts.sh
 time $this_dir/init_py.sh

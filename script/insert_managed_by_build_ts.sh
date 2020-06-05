@@ -1,9 +1,10 @@
 #!/bin/bash -ex
 
 this_dir=$(dirname $0)
+PATH="/usr/bin:/bin:/usr/sbin:/sbin:$($this_dir/../bin/realpath $this_dir/../bin)"
 
 codegen_init_dir=$this_dir/../src/ts/build/codegen/init
-$this_dir/compose_managed_by_build_ts_source_file $this_dir/../src/py > /tmp/managed-by-build.ts.new
+python3 $this_dir/compose_managed_by_build_ts_source_file.py $this_dir/../src/py > /tmp/managed-by-build.ts.new
 
 should_compile=yes
 

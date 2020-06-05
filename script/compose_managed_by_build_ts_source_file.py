@@ -1,10 +1,7 @@
-#!/usr/bin/env python3
-
 import json
 import os
 import sys
 from typing import Dict
-
 
 class TsConstant:
     name: str
@@ -46,7 +43,7 @@ ts_constants.append(
 def convert_ts_constant_to_ts_string(ts_constant: TsConstant) -> str:
     result = "// %s\n" % ts_constant.comment
     result += "export const %s: { [key: string]: string } = %s\n" % (
-    ts_constant.name, json.dumps(ts_constant.value, indent=4, sort_keys=True))
+        ts_constant.name, json.dumps(ts_constant.value, indent=4, sort_keys=True))
     return result
 
 

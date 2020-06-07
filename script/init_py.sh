@@ -8,18 +8,6 @@ bin_dir=$(dirname $0)/../bin
 test -d $bin_dir || mkdir $bin_dir
 
 
-# not really py-related...
-if [ $(uname) = "Darwin" ]; then
-    if [ ! -f /usr/local/bin/realpath ]; then
-        brew install coreutils
-    fi
-    ln -sf /usr/local/bin/realpath $bin_dir/realpath
-fi
-
-if [ $(uname) = "Linux" ]; then
-    ln -sf /usr/bin/realpath $bin_dir/realpath
-fi
-
 
 
 

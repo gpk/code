@@ -6,6 +6,8 @@ echo "BUILD START $(date)"
 
 $this_dir/tsc_build.sh
 
+$this_dir/insert_managed_by_build_ts.sh
+
 cd $this_dir/../src/ts
 
 mkdir -p build/upload

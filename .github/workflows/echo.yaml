@@ -1,9 +1,0 @@
-name: "Echo should run successfully on every push"
-on: push
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Echo step
-        run: echo "::debug Hello World ${GITHUB_REF##*/}"

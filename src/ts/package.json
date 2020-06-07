@@ -16,6 +16,7 @@
     "rollup-plugin-node-resolve": "5.2.0",
     "rollup-plugin-typescript-paths": "1.2.2",
     "rollup-plugin-sourcemaps": "0.6.2",
+    "@slack/webhook": "5.0.3",
     "source-map-support": "0.5.19",
     "typescript": "3.9.3",
     "chai": "4.2.0",

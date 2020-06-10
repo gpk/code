@@ -69,7 +69,9 @@ Settings:
 * Node interpreter: project
 * Mocha package: Set this to src/ts/custom-mocha, under this project root
 * User interface: tdd
+* Working Directory: set to the project root on disk
 * Extra mocha options: --srcDir=src/ts --tscOutDir=src/ts/build/tsc --preRun=script/tsc_build.sh
+* Before Launch: run external tool at script/tsc_builddir.sh
 
 
 ## Local dev server

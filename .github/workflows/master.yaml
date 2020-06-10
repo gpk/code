@@ -9,6 +9,9 @@ jobs:
     name: build-and-deploy
     runs-on: ubuntu-latest
     steps:
+      - name: Echo step
+        run: echo "::debug Master Build of git-ref ${GITHUB_REF##*/}"
+
       - name: Checkout Repo
         uses: actions/checkout@v2
 
@@ -32,4 +35,5 @@ jobs:
       - name: All
         run: script/gh-action-master.sh
         env:
+          PW_DEV_UPLOAD_GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.PW_DEV_UPLOAD_GOOGLE_APPLICATION_CREDENTIALS }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

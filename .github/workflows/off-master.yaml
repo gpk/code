@@ -33,16 +33,6 @@ jobs:
       - name: All
         run: script/gh-action-off-master.sh
         env:
-          PW_DEV_UPLOAD_GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.PW_DEV_UPLOAD_GOOGLE_APPLICATION_CREDENTIALS }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-
-      # we run tests and typecheck independently, off-master,
-      # because these things are not prerequisites for dev deployment.
-      - name: Typescript Tests
-        run: script/test_ts.sh
-
-      - name: Python Tests
-        run: script/test_py.sh
-
-      - name: Python Typecheck
-        run: script/typecheck_py.sh
+          PW_DEV_UPLOAD_GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.PW_DEV_UPLOAD_GOOGLE_APPLICATION_CREDENTIALS }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

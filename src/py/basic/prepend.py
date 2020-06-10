@@ -1,2 +1,2 @@
-def prepend(prefix: str, str: str) -> str:
-    return prefix + str
+def prepend(prefix: str, main: str) -> str:
+    return prefix + main

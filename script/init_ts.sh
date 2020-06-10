@@ -1,7 +1,7 @@
 #!/bin/bash -ex
 
 this_dir=$(dirname $0)
-PATH="/usr/bin:/bin:/usr/sbin:/sbin"
+PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 bin_dir=$(dirname $0)/../bin
 
@@ -27,7 +27,7 @@ ln -sf /usr/local/bin/npm $bin_dir/npm
 
 # in the build, the cache is keyed on a hash of package-lock.json
 if [ ! -d "$this_dir/../src/ts/node_modules" -o $(uname) = "Darwin" ]; then
-    PATH="/usr/bin:/bin:/usr/sbin:/sbin:$($this_dir/../bin/realpath $this_dir/../bin)"
+    PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$($this_dir/../bin/realpath $this_dir/../bin)"
     cd $this_dir/../src/ts
     time ../../bin/npm install
 fi

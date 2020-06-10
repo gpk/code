@@ -1,7 +1,7 @@
 #!/bin/bash -ex
 
 this_dir=$(dirname $0)
-PATH="/usr/bin:/bin:/usr/sbin:/sbin"
+PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 bin_dir=$(dirname $0)/../bin
 

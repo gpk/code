@@ -1,0 +1,276 @@
+<html>
+<link rel="stylesheet" href="https://unpkg.com/codemirror@5.54.0/lib/codemirror.css">
+<style type="text/css">
+    .editor {
+        height: 300px;
+        width: 300px;
+        border: 2px solid blue;
+    }
+</style>
+<script src="https://unpkg.com/redux@4.0.5/dist/redux.min.js"></script>
+<script src="https://unpkg.com/codemirror@5.54.0/lib/codemirror.js"></script>
+<script type="module">
+
+    import {html, render} from "https://unpkg.com/lit-html@1.2.1?module"
+
+    render(html`<b>hello</b> world`, document.body) // lit-html minimal example
+
+    /*
+    Redux is a very small FP-ish MVC library
+
+    Imagine all your dispatch+controller code were in a single function that contains a giant switch statement.
+      All possible actions (e.g. user keyboard input, "save", "exit", "rename", etc) are
+        handled via case statements.
+      ...the logic for each of these actions is in each case statement.
+    But what is this "logic" doing?
+    In Redux, it is simply transforming the Model in some way
+
+      function controller(currentModel, action) {
+        switch (action.type) {
+
+          case "rename":
+            return {...currentModel, name: action.newName}
+
+          case "clear":
+            return {...currentModel, content: ""}
+
+          ...
+        }
+      }
+
+
+    You hand this method to Redux, and internally it's taking actions that happen (say as a result
+    of something a user does with your app), and calling this big switch method...
+
+      const newModel = controller(model, {type:"rename", newName: "foo2"})
+
+    Current model + action go in, new model comes out. Repeat.
+
+
+
+    Nomenclature change: Redux has different terms though. Model = State, Controller = Reducer. Revised example,
+      in which your "function controller(..." is now "function myReducer(...":
+
+      const newState = myReducer(state, {type:"rename", newName: "foo2"})
+
+    Immutability: it's pretty important that the incoming state object not be side-affected, at least if you want to
+    keep your sanity when debugging stuff.  You can simply use object spread (as above). There's also immer,
+    which I like and which the redux folks appear to still recommend https://stackoverflow.com/a/60819732
+
+
+
+    The "V" in MVC.
+
+    Redux has something it calls a store, you create it using your reducer function and an initial state:
+
+    const initialState = {name: "foo"}
+    const store = Redux.createStore(myReducer, initialState)  // i.e. "controller" and initial "model"
+
+      // think: simplest possible "view rendering function"...but just for debugging purposes
+      function nameConsoleRenderer() {
+        console.log(`current name: ${store.getState().name}`)
+      }
+
+      // think: simplest possible html-based "view rendering function"
+      function nameDomRenderer() {
+        document.body.innerHTML = `Name: <br>${store.getState().name}</br>`
+      }
+
+    Then you add your rendering functions to the store:
+
+      store.subscribe(nameConsoleRenderer)
+      store.subscribe(nameDomRenderer)
+
+    ...and every time there's a state update, redux will invoke each view function.
+    Your immediate reaction is likely:
+      "holy crap does that mean html-re-rendering is happening all the time? That's nuts."
+    To which I say:
+      - "No - whether to actually have dom-mutating effects on any invocation is up to the view function.
+        You can have it hold its own internal state across view invocations (e.g. via a higher-order function that closes
+        around some common tracking variables), which you will often do. For example, it's totally unacceptable to
+        re-render a code editor as someone is typing in it."
+      ...but also
+      - "Yes - by default I let things just re-render...and that's because of stuff like lit-html, that uses
+        tricks like shadow-DOM to optimize what gets re-rendered, and so there's often very little perf impact."
+        (<- this is why redux and lit-html make a pretty good pair)
+
+
+    The round trip
+
+    The redux store has a dispatch method, which is how actions are dispatched:
+
+    const store = Redux.createStore(myReducer, initialState)
+    store.subscribe(nameConsoleRenderer)
+    store.subscribe(nameDomRenderer)
+    store.dispatch({type: "rename", newName: "foo2"})
+
+    Dispatch will:
+      - cause myReducer to be invoked with initialState plus the action {type: "rename", newName: "foo2"}
+      - myReducer invokes appropriate "business logic" that produces a new state in which name = "foo2"
+      - invoke nameConsoleRenderer. When nameConsoleRenderer invokes store.getState(), the object returned will
+          be the new state, i.e. with name = "foo2"
+      - invoke nameDomRenderer (same idea)
+
+    Common ways one invokes store.dispatch:
+      - in the response callback of an ajax call
+      - in a dom event handler,
+          e.g. "onclick=function(){store.dispatch({type:"rename", newName:rootElement.querySelector(".nameField").value})}"
+
+
+    Conclusions:
+
+    Redux is super simple, and it might be hard to see what its value even is.
+    It takes what is naively/potentially a totally insane concurrent+mutable-state client-side mess and imposes
+    discipline.
+
+    Every single state transition happens via separate,
+    serial invocations of a glorified giant switch statement, at the end of each of which, all view effects occur.
+    Then the next action takes the resulting state, and repeats the cycle.
+
+    The discipline yields a lightened mental burden. Even the most complex MVC interactions get boiled down to some
+    simple testable "parts", and become something you can easily reason through, and thus have some confidence in
+    actually consistently working for users.
+
+    The flip side is that if you lapse into old ways of imagining how application state should be handled,
+    e.g. by burying it in the dom, you will be harshly punished, and Redux will always win (but you'll end up
+    feeling good about that, because the Redux way is better than your bad old way).
+
+
+    Uncovered: we didn't talk about async behavior, that's for a separate example.
+    */
+
+
+    /*
+    Example app:
+
+    The user sees two panes: one is an editor they can type in,
+    and another displays some stats about what they typed.
+
+    Goals:
+      - Show some rudimentary codemirror/redux/lit-html
+      - Show an example that's a little beyond "trivial". It's like a super-stripped-down form of what we're building.
+
+    Non Goals:
+      - Demonstration of async behavior
+      - Better code design (I have some beefs w/ vanilla Redux patterns - particularly regarding having "application
+        code" access store state via closures). Stick to redux default patterns.
+    */
+
+
+    function myReducer(previousState, action) {
+        console.log("=====================")
+        console.log("reducer handling action:", action)
+
+        switch (action.type) {
+            case "INIT":
+                return previousState
+
+            case "TEXT_CHANGED":
+                return {
+                    ...previousState,
+                    content: action.newContent,
+                    changeCounter: previousState.changeCounter + 1,
+                }
+
+            case "CURSOR_MOVED":
+                return {
+                    ...previousState,
+                    cursorMoveCounter: previousState.cursorMoveCounter + 1,
+                }
+
+            case "START_RENAME":
+                return {
+                    ...previousState,
+                    renameState: "ACCEPT_INPUT",
+                }
+
+            case "RENAME":
+                return {
+                    ...previousState,
+                    name: action.newName,
+                    renameCounter: previousState.renameCounter + 1,
+                    renameState: "CLOSED",
+                }
+
+            default:
+                console.log(action)
+                return previousState
+        }
+    }
+
+    const store =
+        Redux.createStore(myReducer, {
+            name: "this is the initial name",
+            content: "this is the initial editor content",
+            cursorMoveCounter: 0,
+            changeCounter: 0,
+            renameCounter: 0,
+            renameState: "CLOSED",
+        })
+
+    function consoleLoggingSubscriber() {
+        console.log("consoleLoggingSubscriber invoked")
+
+        console.log(
+            `name = ${store.getState().name}"\n`,
+            `content = ${store.getState().content}"\n`,
+            `cursorMoveCounter = ${store.getState().cursorMoveCounter}"\n`,
+            `changeCounter = ${store.getState().changeCounter}"\n`,
+            `renames = ${store.getState().renameCounter}"\n`)
+    }
+
+    const nameElement = document.createElement("div")
+    nameElement.className = "name"
+    const editorElement = document.createElement("div")
+    editorElement.className = "editor"
+    const statsElement = document.createElement("div")
+    statsElement.className = "stats"
+    document.body.appendChild(nameElement)
+    document.body.appendChild(editorElement)
+    document.body.appendChild(statsElement)
+
+    const codeMirrorEditor = CodeMirror(editorElement)
+    codeMirrorEditor.on("change", (editor) => store.dispatch({type: "TEXT_CHANGED", newContent: editor.getValue()}))
+    codeMirrorEditor.on("cursorActivity", () => store.dispatch({type: "CURSOR_MOVED"}))
+
+    function nameRenderingSubscriber() {
+        console.log("nameRenderingSubscriber invoked")
+
+        if (store.getState().renameState === "ACCEPT_INPUT") {
+            render(html`
+                <div>
+                    <input class="name-text-box" type="text" value="${store.getState().name}"></div>
+                    <button @click="${() => store.dispatch({
+                type: "RENAME",
+                newName: nameElement.querySelector(".name-text-box").value,
+            })}">submit</button>
+                </div>`, nameElement)
+        } else {
+            render(html`
+                <div>
+                    ${store.getState().name}
+                    <button @click="${() => store.dispatch({type: "START_RENAME"})}">edit</button>
+                </div>
+            `, nameElement)
+        }
+    }
+
+    function statsRenderingSubscriber() {
+        console.log("statsRenderingSubscriber invoked")
+
+        render(html`
+            <ul>
+                <li>cursorMoveCounter = ${store.getState().cursorMoveCounter}</li>
+                <li>changeCounter = ${store.getState().changeCounter}</li>
+                <li>renames = ${store.getState().renameCounter}</li>
+            </ul>
+        `, statsElement)
+    }
+
+    store.subscribe(consoleLoggingSubscriber)
+    store.subscribe(nameRenderingSubscriber)
+    store.subscribe(statsRenderingSubscriber)
+
+    store.dispatch({type: "INIT"}) // forces first render
+</script>
+</html>

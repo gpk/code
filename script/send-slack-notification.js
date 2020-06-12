@@ -2,11 +2,11 @@ const fs = require('fs')
 const assert = require('assert')
 const IncomingWebhook = require('@slack/webhook').IncomingWebhook
 
-assert.ok(process.env.SLACK_WEBHOOK_URL != null)
-assert.ok(process.env.GITHUB_ACTION_URL != null)
-assert.ok(process.env.GITHUB_ACTOR != null)
-assert.ok(process.env.GITHUB_REF != null)
-assert.ok(process.env.BUILD_SERIES != null)
+assert.ok(process.env.SLACK_WEBHOOK_URL != null, process.env)
+assert.ok(process.env.GITHUB_ACTION_URL != null, process.env)
+assert.ok(process.env.GITHUB_ACTOR != null, process.env)
+assert.ok(process.env.GITHUB_REF != null, process.env)
+assert.ok(process.env.BUILD_SERIES != null, process.env)
 
 const args = process.argv.slice(2)
 assert.equal(args.length, 4)

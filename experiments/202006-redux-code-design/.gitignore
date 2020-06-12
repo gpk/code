@@ -1,0 +1,6 @@
+bundle.js
+*.js
+!rollup.config.js
+*.tsbuildinfo
+*.map
+*.d.ts

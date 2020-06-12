@@ -1,0 +1,27 @@
+{
+  "name": "sample",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "codemirror": "5.54.0",
+    "immer": "5.3.6",
+    "lit-html": "1.2.1",
+    "redux": "4.0.5",
+    "redux-loop": "5.1.1"
+  },
+  "devDependencies": {
+    "@types/codemirror": "0.0.96",
+    "rollup": "2.12.0",
+    "@rollup/plugin-commonjs": "13.0.0",
+    "@rollup/plugin-node-resolve": "8.1.0",
+    "@rollup/plugin-replace": "2.3.3",
+    "@types/node": "14.0.13",
+    "rollup-plugin-sourcemaps": "0.6.2",
+    "typescript": "3.9.3"
+  }
+}

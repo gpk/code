@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "./build",
     "pretty": true,
     "lib": [
       "es2015.iterable",

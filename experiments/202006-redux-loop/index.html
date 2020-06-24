@@ -1,0 +1,158 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css"/>
+    <script src="https://unpkg.com/chai/chai.js"></script>
+    <script src="https://unpkg.com/mocha/mocha.js"></script>
+    <script class="mocha-init">
+        mocha.setup("tdd")
+        mocha.checkLeaks()
+    </script>
+
+    <script src="https://unpkg.com/redux@4.0.5/dist/redux.min.js"></script>
+
+
+    <script>
+        var module = {}
+    </script>
+    <script src="https://unpkg.com/synchronous-promise@2.0.13/index.js"></script>
+    <script src="https://unpkg.com/redux-loop@5.1.1/dist/redux-loop.min.js"></script>
+
+</head>
+<script type="module">
+
+    /*
+    I find redux-loop's approach to management of async state to promote testability and good code organization.
+
+    This is in contrast to action creators and thunks:
+
+    from https://bytes.grubhub.com/using-redux-loop-to-make-tacos-at-grubhub-5e67741c9cdc
+    > Thunks, however, have their drawbacks. How do you test the action creator that returns a function without
+    > running the side effect itself? Furthermore, “pure” Redux logic gets mixed with side effect logic. This
+    > causes the functions to be messy and tricky to maintain.
+
+    This is the redux-loop philosophy:
+    > Synchronous state transitions caused by returning a new state from the reducer in response to an action are
+    > just one of all possible effects an action can have on application state.
+
+    ...so, a case statement in a reducer might just return a new state.
+    ...or it might return a new state plus something to do next (like, an async call)
+
+    In production, redux-loop intercedes to process the "extra" stuff that you return (e.g. some async call)
+
+    The example demonstrates how one would typically test an async call - both the request and response.
+
+    It uses SynchronousPromise as a fakey, immediately-executing Promise.
+    */
+
+    const Cmd = ReduxLoop.Cmd
+    const loop = ReduxLoop.loop
+    const assert = chai.assert
+
+    function createMyReducer(inputs) {
+        return function (previousState, action) {
+            switch (action.type) {
+                case "SEARCH_REQUEST":
+
+                    // note that, instead of a simple "next state" being returned,
+                    // this a kind of "multiple return" of "next state" plus "some additional work to perform",
+                    // in this case, an async call (invocation of a function that returns a promise)
+                    return loop(
+                        // the next state - which the redux store subscribers will immediately see
+                        {...previousState, searchState: "IN_PROGRESS"},
+
+                        // async work - to be invoked just after the subscribers are updated
+                        Cmd.run(inputs.searchRpc, {
+                            args: [action.searchTerm],
+
+                            // If the promise resolves succesfully, this callback will be invoked.
+                            // It *must* return a Redux action.
+                            // The reducer is invoked with this action.
+                            successActionCreator: (searchResults) => {
+                                return {
+                                    type: "SEARCH_SUCCESS",
+                                    searchResultsFromServer: searchResults,
+                                }
+                            },
+                        }),
+                    )
+
+                // The success action is usually just taking data from the promise result
+                // and inserting it into the appropriate part of the state tree.
+                // Usually I also update an async-flow-state-tracking enum attribute.
+                // You can imagine starting and stopping
+                // a spinner, or disabling/enabling some part of the UI, based on its value.
+                case "SEARCH_SUCCESS":
+                    return {
+                        ...previousState,
+                        currentSearchResults: action.searchResultsFromServer,
+                        searchState: "COMPLETE",
+                    }
+
+                default:
+                    return previousState
+            }
+        }
+    }
+
+
+    // redux-loop's api is a little weird, as are their style default recommendations for
+    // how to test async reducer outcomes (i.e. Cmd.run) https://redux-loop.js.org/docs/tutorial/Testing.html
+    // This wrapper method causes the async function to run, and for the resolved result to be fed to
+    // the successActionCreator function...yielding the next action.
+    function simulateSuccessfulCmdRun(cmdRun) {
+        return cmdRun.successActionCreator(cmdRun.func.apply(null, cmdRun.args)._data)
+    }
+
+    suite("my reducer", function () {
+        test("send a search request, receive search response", () => {
+            const searchTermsReceived = []
+            const myReducer = createMyReducer({
+                searchRpc: (searchTerm) => {
+                    searchTermsReceived.push(searchTerm)
+                    return new SynchronousPromise((resolve, reject) => {
+                        resolve([
+                            "foo - Urban dictionary",
+                            "Foobar - Wikipedia",
+                            "Foo Fighters homepage",
+                        ])
+                    })
+                },
+            })
+
+            const initialState = {
+                currentSearchResults: [],
+                searchState: "COMPLETE",
+            }
+
+            const [state2, cmdRun] = myReducer(initialState, {type: "SEARCH_REQUEST", searchTerm: "foo"})
+
+            assert.deepEqual(state2, {
+                currentSearchResults: [],
+                searchState: "IN_PROGRESS",
+            })
+
+            const nextAction = simulateSuccessfulCmdRun(cmdRun)
+
+            assert.deepEqual(searchTermsReceived, ["foo"])
+
+            assert.deepEqual(
+                nextAction,
+                {
+                    type: "SEARCH_SUCCESS",
+                    searchResultsFromServer: [
+                        "foo - Urban dictionary",
+                        "Foobar - Wikipedia",
+                        "Foo Fighters homepage",
+                    ],
+                })
+        })
+    })
+    mocha.run()
+
+</script>
+
+<body>
+<div id="mocha"></div>
+</body>
+
+</html>

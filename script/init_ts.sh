@@ -1,7 +1,7 @@
 #!/bin/bash -ex
 
 this_dir=$(dirname $0)
-PATH="/usr/bin:/bin:/usr/sbin:/sbin"
+PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin"
 
 bin_dir=$(dirname $0)/../bin
 
@@ -14,6 +14,10 @@ if [ $(uname) = "Darwin" ]; then
         brew install coreutils
     fi
     ln -sf /usr/local/bin/realpath $bin_dir/realpath
+
+    if [ ! -f /usr/local/bin/npm ]; then
+        brew install npm
+    fi
 fi
 
 if [ $(uname) = "Linux" ]; then

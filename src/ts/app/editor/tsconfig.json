@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig-base.json",
+  "references": [
+    {
+      "path": "../framework"
+    },
+    {
+      "path": "../storage"
+    },
+    {
+      "path": "../../lib/util"
+    }
+  ],
+  "include": [
+    "**/*.ts"
+  ]
+}

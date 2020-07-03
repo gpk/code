@@ -1,5 +1,6 @@
 import {RootState} from "./root-state"
 import * as EditorModule from "app/editor"
+import * as ConsoleModule from "app/console"
 import {
     CreateSubscriptionFunction,
     CssScope,
@@ -17,5 +18,12 @@ export function subscribe(createRootStateSubscription: CreateSubscriptionFunctio
             createRootStateSubscription,
             (rootState) => rootState.editorSubtree),
         shadowRootContext.initShadowRootContext(".left", CssScope.EDITOR)
+    )
+
+    ConsoleModule.subscribe(
+        makeSubtreeCreateSubscriptionFunction<RootState, ConsoleModule.Subtree>(
+            createRootStateSubscription,
+            (rootState) => rootState.consoleSubtree),
+        shadowRootContext.initShadowRootContext(".right", CssScope.CONSOLE)
     )
 }

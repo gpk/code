@@ -8,7 +8,6 @@ export class ShadowRootContext {
 
     constructor(public root: ShadowRoot,
                 private cssScope: CssScope,
-
                 // required instead of imported, in order to allow
                 // ShadowRootContext to be imported, without evaluating
                 // lit-html js except when running in the browser.

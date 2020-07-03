@@ -8,6 +8,9 @@
       "path": "../app/framework"
     },
     {
+      "path": "../app/program-run"
+    },
+    {
       "path": "../app/root"
     }
   ],

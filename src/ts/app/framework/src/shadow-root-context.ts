@@ -4,6 +4,8 @@ import {TemplateResult} from "lit-html"
 
 declare function require(name: string): any
 
+const cssScopesUsed: CssScope[] = []
+
 export class ShadowRootContext {
 
     constructor(public root: ShadowRoot,
@@ -34,13 +36,18 @@ export class ShadowRootContext {
     }
 
     initShadowRootContext(selector: string, cssScope: CssScope): ShadowRootContext {
+        checkState(cssScopesUsed.indexOf(cssScope) < 0,
+            `May not use css scope to create a shadow root more than once: ${cssScope}`)
+        cssScopesUsed.push(cssScope)
         return new ShadowRootContext(this.find(selector).attachShadow({mode: "open"}), cssScope)
     }
 
-    render(templateResult: TemplateResult) {
+    render(templateResult: TemplateResult, selector: string | undefined = undefined) {
+        const elementTarget = selector ? this.find(selector!) : this.root
+
         this.shadyRender.render(
             templateResult,
-            this.root,
+            elementTarget,
             {scopeName: this.cssScope})
         // see https://lit-html.polymer-jp.org/api/modules/shady_render.html
         // "Adds a scopeName option which is used to scope element DOM and stylesheets when native ShadowDOM is unavailable.

@@ -1,0 +1,1 @@
+export {pageAction} from "./action"

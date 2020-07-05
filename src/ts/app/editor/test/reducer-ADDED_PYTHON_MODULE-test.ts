@@ -37,19 +37,14 @@ suite("editor reducer - ADDED_PYTHON_MODULE", () => {
                     documentCollection: incomingDocumentCollection
                 }) as Subtree
 
-        assert.deepEqual(
-            nextState,
-
-            {
-                updateCounter: 1,
-                nextContent: {
-                    document: {
-                        name: "foo",
-                        content: "print('hello')"
-                    },
-                    setOnCounter: 1
-                }
-            })
+        assert.equal(nextState.updateCounter, 1)
+        assert.deepEqual(nextState.nextContent, {
+            setOnCounter: 1,
+            document: {
+                name: "foo",
+                content: "print('hello')"
+            }
+        })
     })
 })
 

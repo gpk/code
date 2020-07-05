@@ -1,7 +1,7 @@
 #!/bin/bash -ex
 
 this_dir=$(dirname $0)
-PATH="/usr/bin:/bin:/usr/sbin:/sbin:$($this_dir/../bin/realpath $this_dir/../bin)"
+PATH="$($this_dir/../bin/realpath $this_dir/../bin):/usr/bin:/bin:/usr/sbin:/sbin"
 
 codegen_main_dir=$this_dir/../src/ts/build/codegen/main
 python3 $this_dir/compose_managed_by_build_ts_source_file.py $this_dir/../src/py > /tmp/managed-by-build.ts.new

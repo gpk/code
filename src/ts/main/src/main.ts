@@ -7,6 +7,8 @@ import {Action, createStore, Store} from "redux"
 import {install, StoreCreator} from "redux-loop"
 import {storageAction} from "app/storage"
 import {programRunAction} from "app/program-run"
+import {model} from "app/domain"
+import {pageAction} from "app/page"
 
 declare const languagePluginLoader: Promise<any>
 declare const pyodide: any
@@ -72,7 +74,9 @@ function main() {
                 })
             }, shadowRootContext)
 
-        //TODO: dispatch init action
+        store.dispatch({
+            type: pageAction.Keys.INIT
+        })
 
         // for more about languagePluginLoader, see https://github.com/iodide-project/pyodide/blob/master/src/pyodide.js
         languagePluginLoader.then(() => {
@@ -149,6 +153,11 @@ function main() {
             `)
 
             console.log(new Date().getTime() - start)
+
+            store.dispatch({
+                type: programRunAction.Keys.INTERPRETER_STATUS_CHANGED,
+                newStatus: model.PythonInterpreterStatus.READY_TO_RUN
+            })
         })
     })
 }

@@ -1,6 +1,7 @@
 import {Subtree} from "./subtree"
 import produce from "immer"
 import {model} from "app/domain"
+import {PythonInterpreterStatus} from "../../domain/src/model"
 
 export function initSubtree(): Subtree {
     return {
@@ -11,7 +12,8 @@ export function initSubtree(): Subtree {
                 content: ""
             }
         },
-        updateCounter: 0
+        updateCounter: 0,
+        userCanStartCodeRun: false
     }
 }
 
@@ -29,3 +31,10 @@ export function setNextEditorContent(previous: Subtree, document: model.PythonMo
         }
     })
 }
+
+export function updateForInterpreterStatusChange(previous: Subtree, newStatus: model.PythonInterpreterStatus) {
+    return produce(previous, draft => {
+        draft.userCanStartCodeRun = newStatus == PythonInterpreterStatus.READY_TO_RUN
+    })
+}
+

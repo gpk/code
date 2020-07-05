@@ -9,3 +9,9 @@ export interface DocumentCollection {
     documents: model.PythonModule[]
     nameToDocument: { [key: string]: model.PythonModule }
 }
+
+export enum PythonInterpreterStatus {
+    INITIALIZING,
+    READY_TO_RUN,
+    RUNNING
+}

@@ -1,16 +1,16 @@
 import {Subtree} from "./subtree"
-import {render} from "./render"
+import {renderInPlace} from "./render-in-place"
 import {CreateSubscriptionFunction, ShadowRootContext} from "app/framework"
 import {Dispatch} from "redux"
 
 export function subscribe(createSubtreeSubscription: CreateSubscriptionFunction<Subtree>,
                           domContext: ShadowRootContext) {
 
-    let lastResult = {}
+    let lastResult: any = {}
 
     createSubtreeSubscription(
         (subtree: Subtree, dispatch: Dispatch, domContext: ShadowRootContext) => {
-            lastResult = render(subtree, domContext, lastResult)
+            lastResult = renderInPlace(subtree, domContext, lastResult)
         },
         domContext)
 

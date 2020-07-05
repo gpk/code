@@ -15,3 +15,7 @@ export enum PythonInterpreterStatus {
     READY_TO_RUN,
     RUNNING
 }
+
+export interface LocationHash {
+    dev: string[]
+}

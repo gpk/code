@@ -6,10 +6,11 @@ import {
     ImprovedLoopCombineReducers,
     ImprovedLoopPromiseFunc
 } from "./improved-loop"
+import {flatten} from "lib/util"
 
 
-export const reduxLoopBasedList: ImprovedLoopAction<any, any> = (state, ...commands: ImprovedCommand[]) => {
-    return loop(state, Cmd.list(commands.map((c) => {
+export const reduxLoopBasedList: ImprovedLoopAction<any, any> = (state, ...commands: (ImprovedCommand | ImprovedCommand[])[]) => {
+    return loop(state, Cmd.list(flatten(commands).map((c) => {
         if ((<any>c).type && (<any>c).type == "RUN") {
             return makeCmdRun.apply(c)
         } else {
@@ -19,7 +20,7 @@ export const reduxLoopBasedList: ImprovedLoopAction<any, any> = (state, ...comma
 }
 
 function makeAction(nextAction: any) {
-    return Cmd.action(<any>nextAction)
+    return Cmd.action(nextAction)
 }
 
 export const reduxLoopBasedAction: ImprovedLoopAction<any, any> = (state, nextAction) => {

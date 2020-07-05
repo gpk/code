@@ -10,6 +10,9 @@
       "app/console": [
         "./app/console/src/index"
       ],
+      "app/dev": [
+        "./app/dev/src/index"
+      ],
       "app/domain": [
         "./app/domain/src/index"
       ],

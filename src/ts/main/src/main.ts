@@ -5,10 +5,15 @@ import * as RootModule from "app/root"
 import {InvokeSubscriptionFunction} from "../../app/framework/src/subscriber"
 import {Action, createStore, Store} from "redux"
 import {install, StoreCreator} from "redux-loop"
-import {storageAction} from "app/storage"
 import {programRunAction} from "app/program-run"
 import {model} from "app/domain"
 import {pageAction} from "app/page"
+import {installPyodideStdoutputActionAdapters} from "./install-pyodide-stdoutput-action-adapters"
+import {installCtlShiftKeyComboActionAdapter} from "./install-ctl-shift-key-combo-action-adapter"
+import {installDragDropActionAdapaters} from "./install-drag-drop-action-adapters"
+import {installEscapeKeyActionAdapter} from "./install-escape-key-action-adapter"
+import {parseLocationHash} from "./parse-location-hash"
+import {setLocationHash} from "./set-location-hash"
 
 declare const languagePluginLoader: Promise<any>
 declare const pyodide: any
@@ -20,48 +25,16 @@ function main() {
     console.log(prepend("hello ", "world, from TypeScript"))
     console.log(PROJECT_PYTHON_FILES)
 
-    const enhancedCreateStore = createStore as StoreCreator
-    const store: Store<RootModule.RootState, Action> =
-        enhancedCreateStore(
-            RootModule.createReducer({
-                improvedLoop: reduxLoopBasedImprovedLoop,
-            }),
-            RootModule.initRootState(),
-            install())
-
-
     document.addEventListener("DOMContentLoaded", function () {
 
-        document.body.ondragover = (e) => {
-            e.preventDefault()
-            e.stopPropagation()
-        }
-
-        document.body.ondrop = (e) => {
-            e.preventDefault()
-            e.stopPropagation()
-
-            //There's a lot that needs to be done to:
-            // - handle only file types we actually support
-            // - handle multiple files
-            // - put in place other defensiveness like checking files sizes and such
-            //
-            // This functionality should be considered prototype/demonstration-quality for now.
-
-            const fileList = e.dataTransfer!.files
-            for (let i = 0; i < fileList.length; i++) {
-                const reader = new FileReader()
-                reader.addEventListener('load', (event) => {
-                    store.dispatch({
-                        type: storageAction.Keys.RECEIVE_DROPPED_FILE,
-                        name: fileList[i].name,
-                        content: (<string>event.target!.result)
-                    })
-                })
-                reader.readAsText(fileList[i])
-            }
-        }
-
+        const enhancedCreateStore = createStore as StoreCreator
+        const store: Store<RootModule.RootState, Action> =
+            enhancedCreateStore(
+                RootModule.createReducer({
+                    improvedLoop: reduxLoopBasedImprovedLoop,
+                }),
+                RootModule.initRootState(),
+                install())
 
         const shadowRootContext = new ShadowRootContext(document.body.attachShadow({mode: "open"}), CssScope.ROOT)
         shadowRootContext.render(RootModule.render())
@@ -72,42 +45,22 @@ function main() {
                 store.subscribe(() => {
                     subscriberFunction(store.getState(), store.dispatch, subscriberShadowContext)
                 })
-            }, shadowRootContext)
+            }, shadowRootContext,
+            setLocationHash)
 
-        store.dispatch({
-            type: pageAction.Keys.INIT
+        store.dispatch<pageAction.Init>({
+            type: pageAction.Keys.INIT,
+            locationHash: parseLocationHash(location.hash)
         })
+
+        installCtlShiftKeyComboActionAdapter(document, store.dispatch)
+        installEscapeKeyActionAdapter(document, store.dispatch)
+        installDragDropActionAdapaters(document, store.dispatch)
 
         // for more about languagePluginLoader, see https://github.com/iodide-project/pyodide/blob/master/src/pyodide.js
         languagePluginLoader.then(() => {
 
-            //TODO: this needs to be a more complete python IO implementation,
-            // see https://github.com/python/typeshed/blob/5d553c9584eb86793cfa61019ddee5c7b62bc286/stdlib/2/typing.pyi#L320
-            (<any>window).fakeStdout = {
-                write(str: string) {
-                    store.dispatch({
-                        type: programRunAction.Keys.WRITE_TO_STDOUT,
-                        text: str
-                    })
-                }
-            } as any
-
-            (<any>window).fakeStderr = {
-                write(str: string) {
-                    store.dispatch({
-                        type: programRunAction.Keys.WRITE_TO_STDERR,
-                        text: str
-                    })
-                }
-            } as any
-
-            pyodide.runPython(`
-                from js import fakeStdout, fakeStderr
-                import sys
-                import io
-                sys.stdout = fakeStdout
-                sys.stderr = fakeStderr
-            `)
+            installPyodideStdoutputActionAdapters(window, pyodide, store.dispatch)
 
             const pathsCreated: { [key: string]: boolean } = {}
             pyodide._module.FS.mkdir("/py")
@@ -163,4 +116,3 @@ function main() {
 }
 
 (<any>window).main = main
-

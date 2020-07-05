@@ -10,7 +10,7 @@ export interface ReducerInputs {
 }
 
 export function createReducer(inputs: ReducerInputs): ImprovedLoopReducer<Subtree, HandledAction, any> {
-    return function reduce(previous: Subtree, action: HandledAction): Subtree | [Subtree, HandledAction] {
+    return function reduce(previous: Subtree, action: HandledAction): Subtree | [Subtree, any] {
         switch (action.type) {
 
             case programRunAction.Keys.WRITE_TO_STDOUT:

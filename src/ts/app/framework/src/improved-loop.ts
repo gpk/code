@@ -2,7 +2,11 @@ import {Action} from "redux"
 
 export type ImprovedLoopReducer<S, HandledA extends Action, DispatchedA extends Action> = (previous: S, action: HandledA) => S | [S, DispatchedA]
 
-export type PromiseFuncDefinition<A, R, F extends (...args: any[]) => Promise<R>> = [F, Parameters<F>, (result: R) => A]
+export interface PromiseFuncDefinition<A, R, F extends (...args: any[]) => Promise<R>> {
+    func: F,
+    args: Parameters<F>,
+    successActionCreator: (result: R) => A
+}
 
 export type ImprovedCommand = Action | PromiseFuncDefinition<any, any, any>
 
@@ -16,7 +20,7 @@ export type ImprovedLoopAction<S, A extends Action> = (state: S, nextAction: A) 
 // note: because this type forces usage of generics at the callsite,
 // the compiler won't narrow the action type (which is always a union),
 // because of this TS limitation.
-// That means that when composing the actions returned by the successAppActionCreator,
+// That means that when composing the actions returned by the successActionCreator,
 // you can't rely on the compiler to do excess parameter checking, etc.
 /**
  * Given
@@ -28,9 +32,7 @@ export type ImprovedLoopAction<S, A extends Action> = (state: S, nextAction: A) 
  */
 export type ImprovedLoopPromiseFunc = <S, A extends Action, R, F extends (...args: any[]) => Promise<R>>(
     state: S,
-    f: F,
-    args: Parameters<F>,
-    successAppActionCreator: (result: R) => A) => [S, A]
+    funcDef: PromiseFuncDefinition<A, R, F>) => [S, A]
 
 export type ImprovedLoopList = <S, A extends Action>(
     state: S,

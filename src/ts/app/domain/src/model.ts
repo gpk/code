@@ -19,3 +19,7 @@ export enum PythonInterpreterStatus {
 export interface LocationHash {
     dev: string[]
 }
+
+export interface PythonExecutionEnvironment {
+    runSingleModule: (pythonModule: PythonModule) => Promise<void>
+}

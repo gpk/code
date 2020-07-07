@@ -1,6 +1,6 @@
 import {ImprovedLoop} from "app/framework"
 import {Action} from "redux"
-import {ImprovedLoopAction, ImprovedLoopPromiseFunc} from "../src/improved-loop"
+import {ImprovedLoopAction, ImprovedLoopPromiseFunc, PromiseFuncDefinition} from "../src/improved-loop"
 import {flatten} from "lib/util"
 
 export class ImprovedLoopForTesting<DispatchedA extends Action> implements ImprovedLoop<any, any, DispatchedA> {
@@ -26,6 +26,8 @@ export class ImprovedLoopForTesting<DispatchedA extends Action> implements Impro
         flatten(commands).forEach((c) => {
             if (c.type) {
                 this.action(state, c)
+            } else if (c.func) {
+                this.promiseFunc(state, c)
             } else {
                 throw new Error("implement me")
             }
@@ -34,22 +36,23 @@ export class ImprovedLoopForTesting<DispatchedA extends Action> implements Impro
         return [state, (<any>{})]
     }
 
-    promiseFunc: ImprovedLoopPromiseFunc =
-        <S, A, R, F extends (...args: any[]) => Promise<R>>(
-            state: S,
-            f: F,
-            args: Parameters<F>,
-            successAppActionCreator: (result: R) => A): [S, A] => {
+    promiseFunc: ImprovedLoopPromiseFunc = <S, A, R, F extends (...args: any[]) => Promise<R>>(
+        state: S,
+        funcDef: PromiseFuncDefinition<A, R, F>): [S, A] => {
 
-            this.toProcess.push(() => {
-                f(...args).then((result) => this.nextActions.push(successAppActionCreator(result)))
-            })
+        this.toProcess.push(() => {
+            funcDef.func(...funcDef.args)
+                .then((result) => this.nextActions.push(funcDef.successActionCreator(result)))
+        })
 
-            return [state, (<any>{})]
-        }
+        return [state, (<any>{})]
+    }
+
 
     simulateRun(): DispatchedA[] {
-        this.toProcess.forEach((r) => r())
+        for (let p of this.toProcess) {
+            p()
+        }
         const results = this.nextActions
         this.nextActions = []
         return results

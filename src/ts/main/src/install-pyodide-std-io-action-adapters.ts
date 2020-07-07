@@ -1,7 +1,7 @@
 import {programRunAction} from "app/program-run"
 import {Dispatch} from "redux"
 
-export function installPyodideStdoutputActionAdapters(
+export function installPyodideStdIoActionAdapters(
     window: any,
     pyodide: any,
     dispatch: Dispatch<programRunAction.WriteToStdout | programRunAction.WriteToStderr>) {

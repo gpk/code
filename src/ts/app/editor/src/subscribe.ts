@@ -10,7 +10,7 @@ export function subscribe(createSubtreeSubscription: CreateSubscriptionFunction<
 
     createSubtreeSubscription(
         (subtree: Subtree, dispatch: Dispatch, domContext: ShadowRootContext) => {
-            lastResult = renderInPlace(subtree, domContext, lastResult)
+            lastResult = renderInPlace(subtree, dispatch, domContext, lastResult)
         },
         domContext)
 

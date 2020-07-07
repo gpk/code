@@ -1,6 +1,6 @@
 export function checkState(condition: boolean, errorMessage: string) {
     if (!condition) {
-        throw new Error(errorMessage)
+        throw new Error(errorMessage + "  This is an error on the part of the authors of this application.")
     }
 }
 

@@ -3,6 +3,8 @@ import {Subtree} from "./subtree"
 import {renderCodeEditorInPlace} from "./render-code-editor-in-place"
 import {html} from "lit-html"
 import {renderRunButton} from "./render-run-button"
+import {Dispatch} from "redux"
+import {DispatchedAction} from "./action"
 
 interface RenderInPlaceResult {
     codeEditorResult: any
@@ -11,6 +13,7 @@ interface RenderInPlaceResult {
 
 
 export function renderInPlace(subtree: Subtree,
+                              dispatch: Dispatch<DispatchedAction>,
                               domContext: ShadowRootContext,
                               lastResult: RenderInPlaceResult): RenderInPlaceResult {
 
@@ -33,7 +36,9 @@ export function renderInPlace(subtree: Subtree,
         codeEditorShadowRootContext = domContext.initShadowRootContext(".code-editor", CssScope.CODE_EDITOR)
     }
 
-    domContext.render(renderRunButton(subtree.userCanStartCodeRun), ".header")
+    domContext.render(
+        renderRunButton(subtree.userCanStartCodeRun, subtree.nextContent.document, dispatch),
+        ".header")
 
     return {
         codeEditorResult:

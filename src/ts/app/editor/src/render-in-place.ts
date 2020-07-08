@@ -5,6 +5,7 @@ import {html} from "lit-html"
 import {renderRunButton} from "./render-run-button"
 import {Dispatch} from "redux"
 import {DispatchedAction} from "./action"
+import {renderPythonModuleSelectDropdownBox} from "./render-python-module-select-dropdown-box"
 
 interface RenderInPlaceResult {
     codeEditorResult: any
@@ -25,9 +26,15 @@ export function renderInPlace(subtree: Subtree,
         domContext.render(
             html`
             <style>
+                .header {
+                    display: flex;
+                }
             </style>
             <div>
-                <div class="header"></div>
+                <div class="header">
+                    <div class="module-select"></div>
+                    <div class="run"></div>
+                </div>
                 <div class="code-editor"></div>
             </div>
             
@@ -37,8 +44,19 @@ export function renderInPlace(subtree: Subtree,
     }
 
     domContext.render(
-        renderRunButton(subtree.userCanStartCodeRun, subtree.nextContent.document, dispatch),
-        ".header")
+        renderRunButton(
+            subtree.userCanStartCodeRun,
+            subtree.documentCollection.pythonModules,
+            subtree.nextContent.pythonModuleIndex,
+            dispatch),
+        ".run")
+
+    domContext.render(
+        renderPythonModuleSelectDropdownBox(
+            subtree.documentCollection.pythonModules,
+            subtree.nextContent.pythonModuleIndex,
+            dispatch),
+        ".module-select")
 
     return {
         codeEditorResult:

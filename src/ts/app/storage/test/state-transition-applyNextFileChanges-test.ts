@@ -15,10 +15,10 @@ suite("storage state transition - applyNextFileChanges", () => {
         const nextState = stateTransition.applyNextFileChanges(initialState)
 
         assert.deepEqual(nextState.documentCollection, {
-            documents: [
+            pythonModules: [
                 {name: "foo", content: "print('hello')"}
             ],
-            nameToDocument: {
+            nameToPythonModule: {
                 "foo": {name: "foo", content: "print('hello')"}
             }
         })
@@ -40,10 +40,10 @@ suite("storage state transition - applyNextFileChanges", () => {
         const nextState = stateTransition.applyNextFileChanges(initialState)
 
         assert.deepEqual(nextState.documentCollection, {
-            documents: [
+            pythonModules: [
                 {name: "foo", content: "print('hello')"}
             ],
-            nameToDocument: {
+            nameToPythonModule: {
                 "foo": {name: "foo", content: "print('hello')"}
             }
         })
@@ -70,12 +70,12 @@ suite("storage state transition - applyNextFileChanges", () => {
         const nextState = stateTransition.applyNextFileChanges(initialState)
 
         assert.deepEqual(nextState.documentCollection, {
-            documents: [
+            pythonModules: [
                 {name: "foo", content: "print('hello')"},
                 {name: "foo_2", content: "print('world')"},
                 {name: "foo_3", content: "print('zz')"}
             ],
-            nameToDocument: {
+            nameToPythonModule: {
                 "foo": {name: "foo", content: "print('hello')"},
                 "foo_2": {name: "foo_2", content: "print('world')"},
                 "foo_3": {name: "foo_3", content: "print('zz')"}

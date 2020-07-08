@@ -22,10 +22,14 @@ suite("program-run reducer - KICKOFF_RUN", () => {
             simpleReducer(
                 stateTransition.initSubtree(), {
                     type: programRunAction.Keys.KICKOFF_RUN,
-                    pythonModule: {
+                    pythonModules: [{
                         name: "foo",
                         content: `print("hello")`
-                    }
+                    }, {
+                        name: "bar",
+                        content: `print("world")`
+                    }],
+                    indexOfModuleToRun: 1
                 }) as Subtree
 
         assert.deepEqual(testLoop.simulateRun(), [
@@ -38,9 +42,17 @@ suite("program-run reducer - KICKOFF_RUN", () => {
             } as programRunAction.RunFinished
         ])
 
-        assert.deepEqual(testPython.didRun, [{
+        assert.deepEqual(testPython.didWrite, [[{
             name: "foo",
             content: `print("hello")`
+        }, {
+            name: "bar",
+            content: `print("world")`
+        }]])
+
+        assert.deepEqual(testPython.didRun, [{
+            name: "bar",
+            content: `print("world")`
         }])
     })
 })

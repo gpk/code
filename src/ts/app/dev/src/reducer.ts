@@ -10,7 +10,8 @@ type HandledAction =
     pageAction.Init |
     pageAction.MetaKeyComboPressed |
     pageAction.EscapeKeyPressed |
-    localAction.DropFileFooHello
+    localAction.DropFileFooHello |
+    localAction.DropFilesPrefixing
 
 export interface ReducerInputs {
     improvedLoop: ImprovedLoop<Subtree, HandledAction, DispatchedAction>
@@ -70,6 +71,43 @@ export function createReducer(inputs: ReducerInputs): ImprovedLoopReducer<Subtre
                     {
                         type: pageAction.Keys.CHANGE_DEV_IN_LOCATION_HASH,
                         dev: nextState.accumulatedActions
+                    } as pageAction.ChangeDevInLocationHash)
+
+            case localAction.Keys.DROP_FILES_PREFIXING:
+                const nextStatePrefixing = stateTransition.withAccumulatedDevAction(previous, action)
+
+                return inputs.improvedLoop.list(
+                    nextStatePrefixing,
+                    {
+                        type: storageAction.Keys.RECEIVE_DROPPED_FILE,
+                        name: "try",
+                        content: [
+                            "from prefix1 import prefix_foo",
+                            "from prefix2 import prefix_bar",
+                            "",
+                            "print(prefix_foo('first try'))",
+                            "print(prefix_bar('second try'))"
+                        ].join("\n") + "\n"
+                    } as storageAction.ReceiveDroppedFile,
+                    {
+                        type: storageAction.Keys.RECEIVE_DROPPED_FILE,
+                        name: "prefix1",
+                        content: [
+                            "def prefix_foo(str):",
+                            "    return 'foo: ' + str"
+                        ].join("\n") + "\n"
+                    } as storageAction.ReceiveDroppedFile,
+                    {
+                        type: storageAction.Keys.RECEIVE_DROPPED_FILE,
+                        name: "prefix2",
+                        content: [
+                            "def prefix_bar(str):",
+                            "    return 'bar: ' + str"
+                        ].join("\n") + "\n"
+                    } as storageAction.ReceiveDroppedFile,
+                    {
+                        type: pageAction.Keys.CHANGE_DEV_IN_LOCATION_HASH,
+                        dev: nextStatePrefixing.accumulatedActions
                     } as pageAction.ChangeDevInLocationHash)
 
             default:

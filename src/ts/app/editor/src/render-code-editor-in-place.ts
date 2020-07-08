@@ -35,7 +35,8 @@ export function renderCodeEditorInPlace(subtree: Subtree,
     }
 
     if (subtree.nextContent.setOnCounter == subtree.updateCounter) {
-        result.editor!.getDoc().setValue(subtree.nextContent.document.content)
+        result.editor!.getDoc()
+            .setValue(subtree.documentCollection.pythonModules[subtree.nextContent.pythonModuleIndex].content)
     }
 
     return result

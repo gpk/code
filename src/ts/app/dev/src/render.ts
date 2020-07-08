@@ -20,7 +20,11 @@ export function render(open: boolean, dispatch: Dispatch<DispatchedAction>): Tem
             
             <div class="frame">
                 <button @click="${() => dispatch({type: localAction.Keys.DROP_FILE_HELLO})}">
-                    file drop: foo.py/hello
+                    drop file: foo.py/hello
+                </button>
+                
+                <button @click="${() => dispatch({type: localAction.Keys.DROP_FILES_PREFIXING})}">
+                    drop files: try.py,prefix1.py,prefix2.py
                 </button>
             </div>
         `

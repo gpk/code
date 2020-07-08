@@ -7,10 +7,11 @@ export function initSubtree(): Subtree {
     return {
         nextContent: {
             setOnCounter: 0,
-            document: {
-                name: "new",
-                content: ""
-            }
+            pythonModuleIndex: -1
+        },
+        documentCollection: {
+            pythonModules: [],
+            nameToPythonModule: {}
         },
         updateCounter: 0,
         userCanStartCodeRun: false
@@ -23,11 +24,21 @@ export function bumpUpdateCounter(previous: Subtree): Subtree {
     })
 }
 
-export function setNextEditorContent(previous: Subtree, document: model.PythonModule): Subtree {
+export function setNextEditorContent(previous: Subtree, documentCollection: model.DocumentCollection): Subtree {
     return produce(previous, draft => {
         draft.nextContent = {
             setOnCounter: previous.updateCounter,
-            document: document
+            pythonModuleIndex: documentCollection.pythonModules.length - 1
+        }
+        draft.documentCollection = documentCollection
+    })
+}
+
+export function setNextEditorContentToPythonModuleIndex(previous: Subtree, i: number): Subtree {
+    return produce(previous, draft => {
+        draft.nextContent = {
+            setOnCounter: previous.updateCounter,
+            pythonModuleIndex: i
         }
     })
 }

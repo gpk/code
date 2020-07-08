@@ -49,10 +49,10 @@ export function pyodideInit(start: number,
 
         const python = new PyodidePythonExecutionEnvironment(pyodide)
 
-        python.runSingleModule({
+        python.runModules([{
             name: "test_module",
             content: `print("from the test module")`
-        })
+        }], 0)
 
         console.log(new Date().getTime() - start)
 

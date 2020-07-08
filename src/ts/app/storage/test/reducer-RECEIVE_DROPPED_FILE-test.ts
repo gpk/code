@@ -5,6 +5,7 @@ import {DispatchedAction, storageAction} from "../src/action"
 import {Subtree} from "../src/subtree"
 import {ImprovedLoopForTesting} from "app/framework/test-support"
 import * as stateTransition from "../src/state-transition"
+import {model} from "app/domain"
 
 suite("storage reducer - RECEIVE_DROPPED_FILE", () => {
     const testLoop = new ImprovedLoopForTesting<DispatchedAction>()
@@ -23,14 +24,14 @@ suite("storage reducer - RECEIVE_DROPPED_FILE", () => {
                     content: "print('hello')"
                 }) as [Subtree, any]
 
-        const expectedDocumentCollection = {
-            documents: [
+        const expectedDocumentCollection: model.DocumentCollection = {
+            pythonModules: [
                 {
                     name: "foo",
                     content: "print('hello')"
                 }
             ],
-            nameToDocument: {
+            nameToPythonModule: {
                 "foo": {
                     name: "foo",
                     content: "print('hello')"

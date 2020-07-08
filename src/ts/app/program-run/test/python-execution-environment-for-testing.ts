@@ -2,14 +2,18 @@ import {model} from "app/domain"
 import {SynchronousPromise} from "synchronous-promise"
 
 export class PythonExecutionEnvironmentForTesting implements model.PythonExecutionEnvironment {
-    constructor(public didRun: model.PythonModule[] = []) {
+    constructor(public didWrite: model.PythonModule[][] = [],
+                public didRun: model.PythonModule[] = []) {
     }
 
-    runSingleModule(pythonModule: model.PythonModule): Promise<void> {
-        this.didRun.push(pythonModule)
+    runModules(pythonModules: model.PythonModule[], indexOfModuleToRun: number): Promise<void> {
+        this.didWrite.push(pythonModules)
+        this.didRun.push(pythonModules[indexOfModuleToRun])
 
         return new SynchronousPromise((resolve) => {
             resolve()
         })
     }
+
+
 }

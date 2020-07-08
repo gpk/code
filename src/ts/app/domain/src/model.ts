@@ -6,8 +6,8 @@ export interface PythonModule {
 }
 
 export interface DocumentCollection {
-    documents: model.PythonModule[]
-    nameToDocument: { [key: string]: model.PythonModule }
+    pythonModules: model.PythonModule[]
+    nameToPythonModule: { [key: string]: model.PythonModule }
 }
 
 export enum PythonInterpreterStatus {
@@ -21,5 +21,5 @@ export interface LocationHash {
 }
 
 export interface PythonExecutionEnvironment {
-    runSingleModule: (pythonModule: PythonModule) => Promise<void>
+    runModules: (pythonModules: PythonModule[], indexOfModuleToRun: number) => Promise<void>
 }

@@ -1,5 +1,4 @@
-import {DocumentCollection} from "../../domain/src/model"
-
+import {model} from "app/domain"
 
 export enum FileChangeType {
     ADD_PYTHON_MODULE = "ADD_PYTHON_MODULE"
@@ -15,5 +14,5 @@ export interface Subtree {
     documentChanges: (AddPythonModule)[]
     lastDocumentChangeIndexApplied: number
 
-    documentCollection: DocumentCollection
+    documentCollection: model.DocumentCollection
 }

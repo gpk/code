@@ -4,8 +4,8 @@ import produce from "immer"
 export function initSubtree(): Subtree {
     return {
         documentCollection: {
-            documents: [],
-            nameToDocument: {}
+            pythonModules: [],
+            nameToPythonModule: {}
         },
 
         lastDocumentChangeIndexApplied: 0,
@@ -31,28 +31,28 @@ export function applyNextFileChanges(previous: Subtree) {
             switch (fileChange.type) {
                 case(FileChangeType.ADD_PYTHON_MODULE):
 
-                    if (draft.documentCollection.nameToDocument[fileChange.name]?.content === fileChange.content) {
+                    if (draft.documentCollection.nameToPythonModule[fileChange.name]?.content === fileChange.content) {
                         break
                     }
 
                     let assignedName = fileChange.name
-                    if (draft.documentCollection.nameToDocument[assignedName]) {
+                    if (draft.documentCollection.nameToPythonModule[assignedName]) {
                         let i = 1
-                        while (draft.documentCollection.nameToDocument[assignedName]) {
+                        while (draft.documentCollection.nameToPythonModule[assignedName]) {
                             i += 1
                             assignedName = `${fileChange.name}_${i}`
                         }
                     }
 
-                    draft.documentCollection.documents.push({
+                    draft.documentCollection.pythonModules.push({
                         name: assignedName,
                         content: fileChange.content
                     })
             }
 
-            draft.documentCollection.nameToDocument = {}
-            draft.documentCollection.documents
-                .forEach((d) => draft.documentCollection.nameToDocument[d.name] = d)
+            draft.documentCollection.nameToPythonModule = {}
+            draft.documentCollection.pythonModules
+                .forEach((d) => draft.documentCollection.nameToPythonModule[d.name] = d)
         })
     })
 }

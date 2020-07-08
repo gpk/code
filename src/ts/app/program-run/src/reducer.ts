@@ -24,8 +24,11 @@ export function createReducer(inputs: ReducerInputs): ImprovedLoopReducer<Subtre
                         newStatus: model.PythonInterpreterStatus.RUNNING
                     } as programRunAction.InterpreterStatusChanged,
                     {
-                        func: inputs.python.runSingleModule.bind(inputs.python),
-                        args: [action.pythonModule],
+                        func: inputs.python.runModules.bind(inputs.python),
+                        args: [
+                            action.pythonModules,
+                            action.indexOfModuleToRun
+                        ],
                         successActionCreator: () => {
                             return {
                                 type: programRunAction.Keys.RUN_FINISHED

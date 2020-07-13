@@ -7,10 +7,6 @@ bin_dir=$(dirname $0)/../bin
 
 test -d $bin_dir || mkdir $bin_dir
 
-
-
-
-
 if [ ! -f "$bin_dir/python3" -a $(uname) = "Darwin" ]; then
     /usr/local/bin/brew install pyenv || true
     /usr/local/bin/pyenv install -s 3.7.4

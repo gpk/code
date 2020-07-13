@@ -8,8 +8,8 @@ function convert_AddMessageRecord_to_Message(record: AddMessage): model.Message 
     return {
         text: record.text,
         from: record.from,
-        epochTimeMs: record.epochTimeMs
-    };
+        epochTimeMs: record.epochTimeMs,
+    }
 }
 
 export function apply_MessageRecord_to_ConversationSummary(
@@ -19,13 +19,13 @@ export function apply_MessageRecord_to_ConversationSummary(
         if (!draft.has(record.conversationToken)) {
             draft.set(record.conversationToken, {
                 conversationToken: record.conversationToken,
-                latestMessage: convert_AddMessageRecord_to_Message(record)
+                latestMessage: convert_AddMessageRecord_to_Message(record),
             })
         } else {
             draft.get(record.conversationToken)!.latestMessage = {
                 text: record.text,
                 from: record.from,
-                epochTimeMs: record.epochTimeMs
+                epochTimeMs: record.epochTimeMs,
             }
         }
     })
@@ -39,7 +39,7 @@ export function apply_ConversationSummaryRecord_to_ConversationSummary(
             draft.set(record.conversationToken, {
                 conversationToken: record.conversationToken,
                 name: record.name,
-                latestMessage: undefined
+                latestMessage: undefined,
             })
         } else {
             const conversationSummary = draft.get(record.conversationToken)!
@@ -80,7 +80,7 @@ export function updateRecordDerviedMap<T, R>(
     const result: RecordDerivedMap<T> = {
         map: new Map(),
         version: previous.version,
-        _recordPositions: new Map()
+        _recordPositions: new Map(),
     }
 
     previous.map.forEach((v, k) => result.map.set(k, v))

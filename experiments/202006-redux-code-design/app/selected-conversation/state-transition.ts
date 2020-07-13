@@ -7,8 +7,8 @@ export function init(): Subtree {
     return {
         messageListMap: new Map(),
         currentConversation: {
-            messages: []
-        }
+            messages: [],
+        },
     }
 }
 
@@ -16,7 +16,7 @@ export function conversationSelected(previous: Subtree, conversationToken: strin
     return produce(previous, draft => {
         draft.currentConversation = {
             conversationToken: conversationToken,
-            messages: previous.messageListMap.get(conversationToken) || []
+            messages: previous.messageListMap.get(conversationToken) || [],
         }
     })
 }

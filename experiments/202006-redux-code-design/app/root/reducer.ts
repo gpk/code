@@ -19,12 +19,12 @@ export function createReducer(inputs: ReducerInputs): StandardReducer<any, any> 
         selectedConversationSubtree: SelectedConversationModule.createReducer(),
         newMessageEntrySubtree: NewMessageEntryModule.createReducer({
             improvedLoop: inputs.improvedLoop,
-            postMessageRpc: inputs.postMessageRpc
+            postMessageRpc: inputs.postMessageRpc,
         }),
         storeSubtree: StoreModule.createReducer({
             improvedLoop: inputs.improvedLoop,
             fetchNextConversationSummariesRpc: inputs.fetchNextConversationSummariesRpc,
-            fetchNextMessagesRpc: inputs.fetchNextMessagesRpc
-        })
+            fetchNextMessagesRpc: inputs.fetchNextMessagesRpc,
+        }),
     })
 }

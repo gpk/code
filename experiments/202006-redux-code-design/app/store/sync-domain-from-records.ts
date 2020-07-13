@@ -3,7 +3,7 @@ import {
     apply_ConversationSummaryRecord_to_ConversationSummary,
     apply_MessageRecord_to_ConversationSummary,
     apply_MessageRecord_to_MessageList,
-    updateRecordDerviedMap
+    updateRecordDerviedMap,
 } from "./record-to-domain"
 import produce from "immer"
 import {RecordDerivedMapType} from "../domain/model"
@@ -36,7 +36,7 @@ export function syncDomainFromRecords(previous: Subtree): [Subtree, Action[]] {
             draft.recordDerivedMaps.set(RecordDerivedMapType.CONVERSATION_SUMMARY_MAP, conversationSummaryMap)
             actionsToDispatch.push({
                 type: exportedAction.Keys.CONVERSATION_SUMMARY_MAP_UPDATED,
-                conversationSummaryMap: conversationSummaryMap.map
+                conversationSummaryMap: conversationSummaryMap.map,
             })
         }
 
@@ -55,7 +55,7 @@ export function syncDomainFromRecords(previous: Subtree): [Subtree, Action[]] {
             draft.recordDerivedMaps.set(RecordDerivedMapType.MESSAGE_LIST_MAP, messageListMap)
             actionsToDispatch.push({
                 type: exportedAction.Keys.MESSAGE_LIST_MAP_UPDATED,
-                messageListMap: messageListMap.map
+                messageListMap: messageListMap.map,
             })
         }
     })

@@ -54,7 +54,7 @@ export function createReducer(inputs: ReducerInputs): StandardReducer<Subtree, H
                             return {
                                 type: localAction.Keys.FETCH_NEXT_CONVERSATION_SUMMARY_RECORDS_SUCCESS,
                                 records: records,
-                                startIndex: previous.conversationSummaryRecords.records.length
+                                startIndex: previous.conversationSummaryRecords.records.length,
                             }
                         })
                 } else {
@@ -86,9 +86,9 @@ export function createReducer(inputs: ReducerInputs): StandardReducer<Subtree, H
                     () => {
                         return {
                             type: localAction.Keys.FETCH_NEXT_CONVERSATION_SUMMARY_RECORDS_REQUEST,
-                            fetchCount: previous.conversationSummaryFetchCount
+                            fetchCount: previous.conversationSummaryFetchCount,
                         }
-                    }
+                    },
                 )
 
             case localAction.Keys.FETCH_NEXT_MESSAGE_RECORDS_REQUEST:
@@ -102,9 +102,9 @@ export function createReducer(inputs: ReducerInputs): StandardReducer<Subtree, H
                             return {
                                 type: localAction.Keys.FETCH_NEXT_MESSAGE_RECORDS_SUCCESS,
                                 records: messages,
-                                startIndex: previous.messageRecords.records.length
+                                startIndex: previous.messageRecords.records.length,
                             }
-                        }
+                        },
                     )
                 } else {
                     return previous
@@ -128,9 +128,9 @@ export function createReducer(inputs: ReducerInputs): StandardReducer<Subtree, H
                     () => {
                         return {
                             type: localAction.Keys.FETCH_NEXT_MESSAGE_RECORDS_REQUEST,
-                            fetchCount: previous.messageFetchCount
+                            fetchCount: previous.messageFetchCount,
                         }
-                    }
+                    },
                 )
 
 

@@ -28,13 +28,13 @@ export function createReducer(inputs: ReducerInputs): StandardReducer<Subtree, H
                     inputs.postMessageRpc,
                     [
                         action.conversationToken,
-                        action.messageText
+                        action.messageText,
                     ],
                     () => {
                         return {
-                            type: exportedAction.Keys.POST_MESSAGE_SUCCESS
+                            type: exportedAction.Keys.POST_MESSAGE_SUCCESS,
                         }
-                    }
+                    },
                 )
 
             case exportedAction.Keys.POST_MESSAGE_SUCCESS:

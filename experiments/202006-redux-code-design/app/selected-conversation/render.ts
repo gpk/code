@@ -7,11 +7,11 @@ function renderMessage(message: Message): TemplateResult {
     <li>From: ${message.from}
         <br/>
         ${message.text}
-    </li>`;
+    </li>`
 }
 
 function renderConversationMessages(messages: Message[]): TemplateResult {
-    return html`<ul>${messages.map((m) => renderMessage(m))}</ul>`;
+    return html`<ul>${messages.map((m) => renderMessage(m))}</ul>`
 }
 
 export function render(currentConversation: CurrentConversation): TemplateResult {

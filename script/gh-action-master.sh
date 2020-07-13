@@ -7,7 +7,7 @@ start_time_s=$(date +%s)
 build_outcome=fail
 deploy_outcome=nodeploy
 
-function send_chat {
+function send_chat() {
     time_to_execute=$(expr $(date +%s) - $start_time_s)
 
     DEV_URL=http://dev.gpkpw.com/offmaster/$GITHUB_REF \
@@ -27,7 +27,7 @@ build_outcome=ok
 
 if [ ! -z "$GITHUB_REF" ]; then
     mkdir ~/secrets
-    echo "$PW_DEV_UPLOAD_GOOGLE_APPLICATION_CREDENTIALS" > ~/secrets/PW_DEV_UPLOAD_GOOGLE_APPLICATION_CREDENTIALS
+    echo "$PW_DEV_UPLOAD_GOOGLE_APPLICATION_CREDENTIALS" >~/secrets/PW_DEV_UPLOAD_GOOGLE_APPLICATION_CREDENTIALS
     export GOOGLE_APPLICATION_CREDENTIALS=~/secrets/PW_DEV_UPLOAD_GOOGLE_APPLICATION_CREDENTIALS
     time $this_dir/deploy_to_gcs.sh master/$GITHUB_REF
 else

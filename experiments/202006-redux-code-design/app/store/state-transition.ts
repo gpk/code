@@ -7,27 +7,27 @@ export function init(): Subtree {
     return {
         conversationSummaryRecords: {
             type: RecordStoreType.CONVERSATION_SUMMARY,
-            records: []
+            records: [],
         },
         conversationSummaryFetchCount: 0,
 
         messageRecords: {
             type: RecordStoreType.MESSAGE,
-            records: []
+            records: [],
         },
         messageFetchCount: 0,
         recordDerivedMaps: new Map([
             [RecordDerivedMapType.CONVERSATION_SUMMARY_MAP, {
                 _recordPositions: new Map(),
                 version: "",
-                map: new Map()
+                map: new Map(),
             }],
             [RecordDerivedMapType.MESSAGE_LIST_MAP, {
                 _recordPositions: new Map(),
                 version: "",
-                map: new Map()
-            }]
-        ])
+                map: new Map(),
+            }],
+        ]),
     }
 }
 

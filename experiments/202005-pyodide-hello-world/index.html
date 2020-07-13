@@ -1,24 +1,24 @@
 <html>
-  <head>
+<head>
     <script src=" https://pyodide-cdn2.iodide.io/v0.15.0/full/pyodide.js"></script>
-  </head>
-  <body>
-      <script type="text/javascript">
-            function helloJs(fromPython) {
-              console.log("hello from js, got this from python :", fromPython)
-            }
+</head>
+<body>
+<script type="text/javascript">
+    function helloJs(fromPython) {
+        console.log("hello from js, got this from python :", fromPython)
+    }
 
-            function helloSetTimeout(pyCallback, ms) {
-              console.log(`will wait for ${ms}ms...`)
-              setTimeout(pyCallback, ms)
-            }
+    function helloSetTimeout(pyCallback, ms) {
+        console.log(`will wait for ${ms}ms...`)
+        setTimeout(pyCallback, ms)
+    }
 
-            const start = new Date().getTime()
-            languagePluginLoader.then(function () {
-                pyodide.runPython("print('hello world')");
-                console.log(new Date().getTime() - start)
+    const start = new Date().getTime()
+    languagePluginLoader.then(function () {
+        pyodide.runPython("print('hello world')")
+        console.log(new Date().getTime() - start)
 
-                pyodide.runPython(`
+        pyodide.runPython(`
                 import sqlite3
                 print("sqlite", sqlite3.version)
                 conn = sqlite3.connect('example.db')
@@ -60,10 +60,10 @@
                     print("this loop prints every second, forever")
                     helloSetTimeout(loop_forever, 1000)
                 loop_forever()
-                `);
-                console.log(new Date().getTime() - start)
-            });
+                `)
+        console.log(new Date().getTime() - start)
+    })
 
-      </script>
-  </body>
+</script>
+</body>
 </html>

@@ -11,6 +11,6 @@ export function init(): RootState {
         conversationSummarySubtree: ConversationSummaryModule.initState(),
         selectedConversationSubtree: SelectedConversationModule.initState(),
         newMessageEntrySubtree: NewMessageEntryModule.initState(),
-        storeSubtree: StoreModule.initState()
+        storeSubtree: StoreModule.initState(),
     }
 }

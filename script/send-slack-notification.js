@@ -1,6 +1,6 @@
-const fs = require('fs')
-const assert = require('assert')
-const IncomingWebhook = require('@slack/webhook').IncomingWebhook
+const fs = require("fs")
+const assert = require("assert")
+const IncomingWebhook = require("@slack/webhook").IncomingWebhook
 
 assert.ok(process.env.SLACK_WEBHOOK_URL != null, process.env)
 assert.ok(process.env.GITHUB_ACTION_URL != null, process.env)
@@ -22,11 +22,11 @@ const buildSeriesEmoji = process.env.BUILD_SERIES == "master" ? ":tophat:" : ":r
 
 let buildStatusEmoji = null
 if (buildStatus === "ok") {
-  buildStatusEmoji = ":white_check_mark:"
+    buildStatusEmoji = ":white_check_mark:"
 } else if (buildStatus === "fail") {
-  buildStatusEmoji = ":x:"
+    buildStatusEmoji = ":x:"
 } else {
-  buildStatusEmoji = ":barber:"
+    buildStatusEmoji = ":barber:"
 }
 assert.ok(buildSeriesEmoji != null)
 
@@ -36,8 +36,8 @@ message += " "
 message += buildStatusEmoji
 
 if (deployOk) {
-  assert.ok(process.env.DEV_URL != null)
-  message += ` <${process.env.DEV_URL}|[devsite]>`
+    assert.ok(process.env.DEV_URL != null)
+    message += ` <${process.env.DEV_URL}|[devsite]>`
 }
 
 message += ` <${process.env.GITHUB_ACTION_URL}|[build]>`

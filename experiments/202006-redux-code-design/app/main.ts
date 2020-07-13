@@ -30,49 +30,49 @@ const messages: AddMessage[] = [
         text: `Are you getting on the call?`,
         epochTimeMs: nowMs - 62000000,
         from: "Wendy",
-        conversationToken: "ctoken-666"
+        conversationToken: "ctoken-666",
     },
     {
         text: `Ok can you hear me now?`,
         epochTimeMs: nowMs - 61000000,
         from: "Xavier",
-        conversationToken: "ctoken-666"
+        conversationToken: "ctoken-666",
     },
     {
         text: `Nope still can't.`,
         epochTimeMs: nowMs - 60000000,
         from: "Yolanda",
-        conversationToken: "ctoken-666"
+        conversationToken: "ctoken-666",
     },
     {
         text: `Hey mom can you do a hangout at 5:30?`,
         epochTimeMs: nowMs - 71000000,
         from: "Alice",
-        conversationToken: "ctoken-777"
+        conversationToken: "ctoken-777",
     },
     {
         text: `I sent you the doc via email`,
         epochTimeMs: nowMs - 70000000,
         from: "Bob",
-        conversationToken: "ctoken-777"
+        conversationToken: "ctoken-777",
     },
     {
         text: `Hey how about that one politician isn't it outrageous?`,
         epochTimeMs: nowMs - 82000000,
         from: "Michael",
-        conversationToken: "ctoken-888"
+        conversationToken: "ctoken-888",
     },
     {
         text: `Yes but let's just go build stuff in Minecraft`,
         epochTimeMs: nowMs - 81000000,
         from: "Nina",
-        conversationToken: "ctoken-888"
+        conversationToken: "ctoken-888",
     },
     {
         text: `Hell yes, let's do it.`,
         epochTimeMs: nowMs - 80000000,
         from: "Michael",
-        conversationToken: "ctoken-888"
+        conversationToken: "ctoken-888",
     },
 ]
 
@@ -80,18 +80,18 @@ const conversations: ChangeConversationSummary[] = [
     {
         conversationToken: "ctoken-666",
         lastUpdatedMs: nowMs - 60000000,
-        name: "Work chat"
+        name: "Work chat",
     },
     {
         conversationToken: "ctoken-777",
         lastUpdatedMs: nowMs - 70000000,
-        name: "Family chat"
+        name: "Family chat",
     },
     {
         conversationToken: "ctoken-888",
         lastUpdatedMs: nowMs - 80000000,
-        name: "Friend chat"
-    }
+        name: "Friend chat",
+    },
 ]
 
 function michaelMessage() {
@@ -99,7 +99,7 @@ function michaelMessage() {
         from: "Michael",
         epochTimeMs: new Date().getTime(),
         text: "You logged in yet?",
-        conversationToken: "ctoken-888"
+        conversationToken: "ctoken-888",
     })
     setTimeout(michaelMessage, 7000)
 }
@@ -111,7 +111,7 @@ function ninaMessage() {
         from: "Nina",
         epochTimeMs: new Date().getTime(),
         text: "Yeah I'm in, where are you?",
-        conversationToken: "ctoken-888"
+        conversationToken: "ctoken-888",
     })
     setTimeout(ninaMessage, 11000)
 }
@@ -133,7 +133,7 @@ const store: Store<RootModule.RootState, Action> =
                             conversationToken: conversationToken,
                             from: loggedInUserName,
                             epochTimeMs: new Date().getTime(),
-                            text: messageText
+                            text: messageText,
                         })
                         resolve()
                     }, 500)
@@ -163,7 +163,7 @@ const store: Store<RootModule.RootState, Action> =
                         resolve(conversations.slice(startIndex))
                     }, 2000)
                 })
-            }
+            },
 
         }),
         RootModule.initState(),
@@ -247,11 +247,11 @@ document.addEventListener("DOMContentLoaded", function () {
         shadowRootContext)
 
     store.dispatch<pageAction.Init>({
-        type: pageAction.Keys.INIT
+        type: pageAction.Keys.INIT,
     })
 
     store.dispatch<selectedConversationAction.Select>({
         type: selectedConversationAction.Keys.SELECT,
-        conversationToken: loadMetaTagContentAsString("starting-conversation-token")
+        conversationToken: loadMetaTagContentAsString("starting-conversation-token"),
     })
 })

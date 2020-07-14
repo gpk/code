@@ -8,4 +8,5 @@ interface NextContent {
 export interface Subtree {
     updateCounter: number
     nextContent: NextContent
+    userCanStartCodeRun: boolean
 }

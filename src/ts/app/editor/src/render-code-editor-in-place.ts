@@ -4,15 +4,15 @@ import {ShadowRootContext} from "app/framework"
 import {codeMirrorCss} from "./codemirror-css"
 import {Subtree} from "./subtree"
 
-interface RenderCodeEditorResult {
+interface RenderCodeEditorInPlaceResult {
     editor?: CodeMirror.Editor
 }
 
-export function render(subtree: Subtree,
-                       domContext: ShadowRootContext,
-                       lastResult: RenderCodeEditorResult): RenderCodeEditorResult {
+export function renderCodeEditorInPlace(subtree: Subtree,
+                                        domContext: ShadowRootContext,
+                                        lastResult: RenderCodeEditorInPlaceResult): RenderCodeEditorInPlaceResult {
 
-    let result: RenderCodeEditorResult = lastResult
+    let result: RenderCodeEditorInPlaceResult = lastResult
 
     if (!lastResult.editor) {
         domContext.render(

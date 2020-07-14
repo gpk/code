@@ -22,6 +22,9 @@
       "app/framework/test-support": [
         "./app/framework/test-support/index"
       ],
+      "app/page": [
+        "./app/page/src/index"
+      ],
       "app/program-run": [
         "./app/program-run/src/index"
       ],

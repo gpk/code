@@ -27,7 +27,8 @@ export namespace programRunAction {
 
     export interface KickoffRun extends Action<Keys> {
         type: Keys.KICKOFF_RUN
-        pythonModule: model.PythonModule // TODO: array of modules, with name of the one to run
+        pythonModules: model.PythonModule[]
+        indexOfModuleToRun: number
     }
 
     export interface RunFinished extends Action<Keys> {

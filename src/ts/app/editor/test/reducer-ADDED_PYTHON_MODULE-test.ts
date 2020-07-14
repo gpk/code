@@ -5,6 +5,7 @@ import {ImprovedLoopForTesting} from "app/framework/test-support"
 import * as stateTransition from "../src/state-transition"
 import {storageAction} from "app/storage"
 import {Subtree} from "../src/subtree"
+import {model} from "app/domain"
 
 suite("editor reducer - ADDED_PYTHON_MODULE", () => {
     const testLoop = new ImprovedLoopForTesting()
@@ -15,14 +16,14 @@ suite("editor reducer - ADDED_PYTHON_MODULE", () => {
         })
 
     test("python module added", () => {
-        const incomingDocumentCollection = {
-            documents: [
+        const incomingDocumentCollection: model.DocumentCollection = {
+            pythonModules: [
                 {
                     name: "foo",
                     content: "print('hello')"
                 }
             ],
-            nameToDocument: {
+            nameToPythonModule: {
                 "foo": {
                     name: "foo",
                     content: "print('hello')"
@@ -40,10 +41,7 @@ suite("editor reducer - ADDED_PYTHON_MODULE", () => {
         assert.equal(nextState.updateCounter, 1)
         assert.deepEqual(nextState.nextContent, {
             setOnCounter: 1,
-            document: {
-                name: "foo",
-                content: "print('hello')"
-            }
+            pythonModuleIndex: 0
         })
     })
 })

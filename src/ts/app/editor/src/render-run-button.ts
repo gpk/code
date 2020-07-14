@@ -6,14 +6,16 @@ import {model} from "app/domain"
 
 
 export function renderRunButton(userCanStartCodeRun: boolean,
-                                currentPythonModule: model.PythonModule,
+                                currentPythonModules: model.PythonModule[],
+                                currentPythonModuleIndex: number,
                                 dispatch: Dispatch<DispatchedAction>): TemplateResult {
 
     function dispatchKickoffRun() {
         if (userCanStartCodeRun) {
             dispatch({
                 type: programRunAction.Keys.KICKOFF_RUN,
-                pythonModule: currentPythonModule
+                pythonModules: currentPythonModules,
+                indexOfModuleToRun: currentPythonModuleIndex
             })
         }
     }

@@ -7,9 +7,26 @@
       "basic/*": [
         "./basic/src/*"
       ],
-      "init/*": [
-        "./init/src/*",
-        "./build/codegen/init/*"
+      "app/domain": [
+        "./app/domain/src/index"
+      ],
+      "app/editor": [
+        "./app/editor/src/index"
+      ],
+      "app/framework": [
+        "./app/framework/src/index"
+      ],
+      "app/framework/test-support": [
+        "./app/framework/test-support/index"
+      ],
+      "app/root": [
+        "./app/root/src/index"
+      ],
+      "app/storage": [
+        "./app/storage/src/index"
+      ],
+      "lib/util": [
+        "./lib/util/src/index"
       ]
     }
   },

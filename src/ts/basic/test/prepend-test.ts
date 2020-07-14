@@ -1,6 +1,6 @@
 import {assert} from "chai"
 import {suite, test} from "mocha"
-import {prepend} from "basic/prepend";
+import {prepend} from "basic/prepend"
 
 interface Foo {
     x: number

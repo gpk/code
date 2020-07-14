@@ -6,6 +6,7 @@ import {InvokeSubscriptionFunction} from "../../app/framework/src/subscriber"
 import {Action, createStore, Store} from "redux"
 import {install, StoreCreator} from "redux-loop"
 import {storageAction} from "app/storage"
+import {programRunAction} from "app/program-run"
 
 declare const languagePluginLoader: Promise<any>
 declare const pyodide: any
@@ -67,7 +68,7 @@ function main() {
             (subscriberFunction: InvokeSubscriptionFunction<RootModule.RootState>,
              subscriberShadowContext: ShadowRootContext) => {
                 store.subscribe(() => {
-                    subscriberFunction(store.getState(), store.dispatch, shadowRootContext)
+                    subscriberFunction(store.getState(), store.dispatch, subscriberShadowContext)
                 })
             }, shadowRootContext)
 
@@ -75,6 +76,34 @@ function main() {
 
         // for more about languagePluginLoader, see https://github.com/iodide-project/pyodide/blob/master/src/pyodide.js
         languagePluginLoader.then(() => {
+
+            //TODO: this needs to be a more complete python IO implementation,
+            // see https://github.com/python/typeshed/blob/5d553c9584eb86793cfa61019ddee5c7b62bc286/stdlib/2/typing.pyi#L320
+            (<any>window).fakeStdout = {
+                write(str: string) {
+                    store.dispatch({
+                        type: programRunAction.Keys.WRITE_TO_STDOUT,
+                        text: str
+                    })
+                }
+            } as any
+
+            (<any>window).fakeStderr = {
+                write(str: string) {
+                    store.dispatch({
+                        type: programRunAction.Keys.WRITE_TO_STDERR,
+                        text: str
+                    })
+                }
+            } as any
+
+            pyodide.runPython(`
+                from js import fakeStdout, fakeStderr
+                import sys
+                import io
+                sys.stdout = fakeStdout
+                sys.stderr = fakeStderr
+            `)
 
             const pathsCreated: { [key: string]: boolean } = {}
             pyodide._module.FS.mkdir("/py")
@@ -98,8 +127,10 @@ function main() {
 
 
             pyodide.runPython("print('hello world, from Python')")
+            pyodide.runPython(`import sys; sys.stderr.write("stderr this time - hello world, from Python\\n")`)
 
             console.log(new Date().getTime() - start)
+
 
             pyodide.runPython(`
             import ast
@@ -123,3 +154,4 @@ function main() {
 }
 
 (<any>window).main = main
+

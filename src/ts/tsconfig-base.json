@@ -7,6 +7,9 @@
       "basic/*": [
         "./basic/src/*"
       ],
+      "app/console": [
+        "./app/console/src/index"
+      ],
       "app/domain": [
         "./app/domain/src/index"
       ],
@@ -18,6 +21,9 @@
       ],
       "app/framework/test-support": [
         "./app/framework/test-support/index"
+      ],
+      "app/program-run": [
+        "./app/program-run/src/index"
       ],
       "app/root": [
         "./app/root/src/index"

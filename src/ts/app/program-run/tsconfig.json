@@ -2,16 +2,7 @@
   "extends": "../../tsconfig-base.json",
   "references": [
     {
-      "path": "../console"
-    },
-    {
-      "path": "../editor"
-    },
-    {
       "path": "../framework"
-    },
-    {
-      "path": "../storage"
     }
   ],
   "include": [

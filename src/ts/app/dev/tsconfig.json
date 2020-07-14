@@ -2,16 +2,10 @@
   "extends": "../../tsconfig-base.json",
   "references": [
     {
-      "path": "../console"
-    },
-    {
-      "path": "../dev"
-    },
-    {
-      "path": "../editor"
-    },
-    {
       "path": "../framework"
+    },
+    {
+      "path": "../page"
     },
     {
       "path": "../storage"

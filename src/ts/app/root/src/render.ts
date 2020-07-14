@@ -1,4 +1,4 @@
-import {html, TemplateResult} from "lit-html";
+import {html, TemplateResult} from "lit-html"
 
 export function render(): TemplateResult {
     return html`
@@ -30,6 +30,7 @@ export function render(): TemplateResult {
             }
         </style>
         
+        <div class="dev"></div>
         <div class="main">
             <div class="left"></div>
             <div class="right"></div>

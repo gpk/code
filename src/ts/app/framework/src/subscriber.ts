@@ -1,7 +1,7 @@
 import {Dispatch} from "redux"
 import {ShadowRootContext} from "./shadow-root-context"
 
-type StateTransform<S1, S2> = (state: S1) => S2
+export type StateTransform<S1, S2> = (state: S1) => S2
 
 export type InvokeSubscriptionFunction<S> = (state: S, dispatch: Dispatch, domContext: ShadowRootContext) => void | any
 

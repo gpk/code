@@ -1,6 +1,7 @@
 import {ImprovedLoop} from "app/framework"
 import {Action} from "redux"
 import {ImprovedLoopAction, ImprovedLoopPromiseFunc} from "../src/improved-loop"
+import {flatten} from "lib/util"
 
 export class ImprovedLoopForTesting<DispatchedA extends Action> implements ImprovedLoop<any, any, DispatchedA> {
 
@@ -22,6 +23,14 @@ export class ImprovedLoopForTesting<DispatchedA extends Action> implements Impro
     }
 
     list: ImprovedLoopAction<any, any> = (state, ...commands: any[]) => {
+        flatten(commands).forEach((c) => {
+            if (c.type) {
+                this.action(state, c)
+            } else {
+                throw new Error("implement me")
+            }
+        })
+
         return [state, (<any>{})]
     }
 

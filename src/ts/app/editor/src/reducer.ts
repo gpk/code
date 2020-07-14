@@ -14,7 +14,7 @@ export interface ReducerInputs {
 }
 
 export function createReducer(inputs: ReducerInputs): ImprovedLoopReducer<Subtree, HandledAction, any> {
-    return function reduce(_previous: Subtree, action: HandledAction): Subtree | [Subtree, HandledAction] {
+    return function reduce(_previous: Subtree, action: HandledAction): Subtree | [Subtree, any] {
         const previous = stateTransition.bumpUpdateCounter(_previous)
 
         switch (action.type) {

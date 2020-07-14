@@ -2,8 +2,14 @@
   "files": [],
   "include": [],
   "references": [
-    { "path": "./boat" },
-    { "path": "./shipping-container-types" },
-    { "path": "./truck" }
+    {
+      "path": "./boat"
+    },
+    {
+      "path": "./shipping-container-types"
+    },
+    {
+      "path": "./truck"
+    }
   ]
 }

@@ -29,7 +29,7 @@ export function render(
             () => dispatch({
                 type: localAction.Keys.POST_MESSAGE_REQUEST,
                 conversationToken: currentConversationInfo.conversationToken!,
-                messageText: lastResult.editor!.getValue()
+                messageText: lastResult.editor!.getValue(),
             }) :
             () => {
             }

@@ -9,7 +9,7 @@ import produce from "immer"
 export function init(): Subtree {
     return {
         fetchAllRequestsMadeCounter: 0,
-        summaries: []
+        summaries: [],
     }
 }
 

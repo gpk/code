@@ -6,8 +6,8 @@ export function init(): Subtree {
     return {
         messageSubmitStatus: MessageSubmitStatus.NONE,
         currentConversationInfo: {
-            status: ConversationStatus.INIT
-        }
+            status: ConversationStatus.INIT,
+        },
     }
 }
 
@@ -27,7 +27,7 @@ export function setLoadedConversationInfo(previous: Subtree, conversationToken: 
     return produce(previous, draft => {
         draft.currentConversationInfo = {
             status: ConversationStatus.LOADED,
-            conversationToken: conversationToken
+            conversationToken: conversationToken,
         }
     })
 }

@@ -4,7 +4,7 @@ import {
     ImprovedLoop,
     ImprovedLoopAction,
     ImprovedLoopCombineReducers,
-    ImprovedLoopPromiseFunc
+    ImprovedLoopPromiseFunc,
 } from "./improved-loop"
 
 
@@ -19,7 +19,7 @@ export const reduxLoopBasedList: ImprovedLoopAction<any, any> = (state, ...comma
 }
 
 function makeAction(nextAction: any) {
-    return Cmd.action(<any>nextAction);
+    return Cmd.action(<any>nextAction)
 }
 
 export const reduxLoopBasedAction: ImprovedLoopAction<any, any> = (state, nextAction) => {
@@ -33,8 +33,8 @@ function makeCmdRun<A, R, F extends (...args: any[]) => Promise<R>>(
     successAppActionCreator: (result: R) => A) {
     return Cmd.run(f, {
         args: args,
-        successActionCreator: (<any>successAppActionCreator)
-    });
+        successActionCreator: (<any>successAppActionCreator),
+    })
 }
 
 export const reduxLoopBasedPromiseFunc: ImprovedLoopPromiseFunc =
@@ -55,5 +55,5 @@ export const reduxLoopBasedImprovedLoop: ImprovedLoop<any, any> = {
     list: reduxLoopBasedList,
     action: reduxLoopBasedAction,
     promiseFunc: reduxLoopBasedPromiseFunc,
-    combineReducers: reduxLoopBasedCombineReducers
+    combineReducers: reduxLoopBasedCombineReducers,
 }

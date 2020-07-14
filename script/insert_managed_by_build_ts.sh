@@ -4,7 +4,7 @@ this_dir=$(dirname $0)
 PATH="$($this_dir/../bin/realpath $this_dir/../bin):/usr/bin:/bin:/usr/sbin:/sbin"
 
 codegen_main_dir=$this_dir/../src/ts/build/codegen/main
-python3 $this_dir/compose_managed_by_build_ts_source_file.py $this_dir/../src/py > /tmp/managed-by-build.ts.new
+python3 $this_dir/compose_managed_by_build_ts_source_file.py $this_dir/../src/py >/tmp/managed-by-build.ts.new
 
 should_compile=yes
 
@@ -19,7 +19,7 @@ if [ -f $codegen_main_dir/managed-by-build.ts -o !-f $this_dir/../src/ts/build/t
 fi
 
 mkdir -p $codegen_main_dir
-echo '{"extends": "../../../tsconfig-core.json"}' > $codegen_main_dir/tsconfig.json
+echo '{"extends": "../../../tsconfig-core.json"}' >$codegen_main_dir/tsconfig.json
 mv /tmp/managed-by-build.ts.new $codegen_main_dir/managed-by-build.ts
 
 if [ $should_compile = "yes" ]; then

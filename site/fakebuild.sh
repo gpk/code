@@ -5,7 +5,6 @@ src_dir=$this_dir/../src
 
 cd $src_dir
 
-
 mkdir -p build/upload
 
 time npm install

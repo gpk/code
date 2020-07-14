@@ -34,7 +34,7 @@ export type ImprovedLoopPromiseFunc = <S, A extends Action, R, F extends (...arg
 
 export type ImprovedLoopList = <S, A extends Action>(
     state: S,
-    ...commands: (ImprovedCommand|ImprovedCommand[])[]) => [S, A] // flattens
+    ...commands: (ImprovedCommand | ImprovedCommand[])[]) => [S, A] // flattens
 
 type ImprovedLoopReducerMapObject<S, A extends Action> = {
     [K in keyof S]: StandardReducer<S[K], A>;

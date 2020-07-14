@@ -3,16 +3,17 @@ import os
 import sys
 from typing import Dict
 
+
 class TsConstant:
     name: str
     value: Dict
     comment: str
 
     def __init__(
-            self,
-            name: str,
-            value: Dict,
-            comment: str
+        self,
+        name: str,
+        value: Dict,
+        comment: str
     ) -> None:
         self.name = name
         self.value = value

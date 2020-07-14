@@ -1,7 +1,7 @@
-import {html, TemplateResult} from "lit-html";
-import {model} from "../domain";
-import {selectedConversationAction} from "../selected-conversation";
-import {DispatchForModule} from "./action/dispatch";
+import {html, TemplateResult} from "lit-html"
+import {model} from "../domain"
+import {selectedConversationAction} from "../selected-conversation"
+import {DispatchForModule} from "./action/dispatch"
 
 function renderConversationSummary(summary: model.ConversationSummary,
                                    dispatch: DispatchForModule): TemplateResult {
@@ -12,7 +12,7 @@ function renderConversationSummary(summary: model.ConversationSummary,
     function dispatchConversationSelect() {
         dispatch({
             type: selectedConversationAction.Keys.SELECT,
-            conversationToken: summary.conversationToken
+            conversationToken: summary.conversationToken,
         })
     }
 

@@ -1,15 +1,15 @@
 <html>
-  <head>
+<head>
     <script src=" https://pyodide-cdn2.iodide.io/v0.15.0/full/pyodide.js"></script>
-  </head>
-  <body>
-      <script type="text/javascript">
-            const start = new Date().getTime()
-            languagePluginLoader.then(function () {
-                pyodide.runPython("print('hello world')");
-                console.log(new Date().getTime() - start)
+</head>
+<body>
+<script type="text/javascript">
+    const start = new Date().getTime()
+    languagePluginLoader.then(function () {
+        pyodide.runPython("print('hello world')")
+        console.log(new Date().getTime() - start)
 
-                pyodide.runPython(`
+        pyodide.runPython(`
 import sys
 
 def print_frames(frame):
@@ -31,10 +31,10 @@ def b():
     a()
 
 b()
-                `);
-                console.log(new Date().getTime() - start)
-            });
+                `)
+        console.log(new Date().getTime() - start)
+    })
 
-      </script>
-  </body>
+</script>
+</body>
 </html>

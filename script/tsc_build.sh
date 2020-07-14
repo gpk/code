@@ -5,6 +5,4 @@ PATH="$($this_dir/../bin/realpath $this_dir/../bin):/usr/bin:/bin:/usr/sbin:/sbi
 
 cd $this_dir/../src/ts
 
-echo "tsc time:" > /dev/stderr
 time node_modules/.bin/tsc --build .
-

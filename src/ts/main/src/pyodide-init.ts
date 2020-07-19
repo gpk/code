@@ -47,11 +47,17 @@ export function pyodideInit(start: number,
         
         `)
 
+        // console.log(pyodide)
+        // console.log(pyodide.steveTest())
+        console.log("a")
+        console.log(pyodide.emSleep(5))
+        console.log("b")
+
         const python = new PyodidePythonExecutionEnvironment(pyodide)
 
         python.runModules([{
             name: "test_module",
-            content: `print("from the test module")`
+            content: `print("from the test module")`,
         }], 0)
 
         console.log(new Date().getTime() - start)
@@ -62,7 +68,7 @@ export function pyodideInit(start: number,
 
         store.dispatch({
             type: programRunAction.Keys.INTERPRETER_STATUS_CHANGED,
-            newStatus: model.PythonInterpreterStatus.READY_TO_RUN
+            newStatus: model.PythonInterpreterStatus.READY_TO_RUN,
         })
     })
 }

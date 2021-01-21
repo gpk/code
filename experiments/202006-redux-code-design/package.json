@@ -9,7 +9,7 @@
   "license": "ISC",
   "dependencies": {
     "codemirror": "5.54.0",
-    "immer": "5.3.6",
+    "immer": "8.0.1",
     "lit-html": "1.2.1",
     "redux": "4.0.5",
     "redux-loop": "5.1.1"

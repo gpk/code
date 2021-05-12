@@ -8,7 +8,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "codemirror": "5.54.0",
+    "codemirror": "5.58.2",
     "immer": "5.3.6",
     "lit-html": "1.2.1",
     "redux": "4.0.5",
